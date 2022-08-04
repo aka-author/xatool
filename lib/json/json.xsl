@@ -174,6 +174,24 @@
 
     <!-- Serializing arrays -->
 
+    <xsl:template match="*" mode="xat.json.isUniform" as="xs:boolean">
+        <xsl:variable name="childrenNames" as="xs:string*">
+            <xsl:copy-of select="node()[xat:json.isUseful(.)]/xat:json.propName(.)"/>
+        </xsl:variable>
+        <xsl:variable name="countUniqueChildrenNames">
+            <xsl:value-of select="count(distinct-values($childrenNames))"/>
+        </xsl:variable>
+        <xsl:variable name="countUsefulAttrs">
+            <xsl:value-of select="count(@*[xat:json.isUseful(.)])"/>
+        </xsl:variable>
+        <xsl:sequence select="$countUniqueChildrenNames = 1 and $countUsefulAttrs = 0"/>
+    </xsl:template>
+
+    <xsl:function name="xat:json.isUniform" as="xs:boolean">
+        <xsl:param name="arrayElement"/>
+        <xsl:apply-templates select="$arrayElement" mode="xat.json.isUniform"/>
+    </xsl:function>
+
     <xsl:template match="@* | node()" mode="xat.json.ae">
 
         <xsl:variable name="propNameName" select="xat:json.propName('property')"/>
@@ -194,7 +212,14 @@
     <xsl:template match="*" mode="xat.json.array">
 
         <xsl:variable name="elements" as="xs:string*">
-            <xsl:apply-templates select="(@* | node())[xat:json.isUseful(.)]" mode="xat.json.ae"/>
+            <xsl:choose>
+                <xsl:when test="xat:json.isUniform(.)">
+                    <xsl:apply-templates select="(@* | node())[xat:json.isUseful(.)]" mode="xat.json"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="(@* | node())[xat:json.isUseful(.)]" mode="xat.json.ae"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:variable>
 
         <xsl:value-of select="xat:codegen.brackets(xat:codegen.list($elements))"/>
