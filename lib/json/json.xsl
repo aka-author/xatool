@@ -174,10 +174,27 @@
 
     <!-- Serializing arrays -->
 
+    <xsl:template match="@* | node()" mode="xat.json.ae">
+
+        <xsl:variable name="propNameName" select="xat:json.propName('property')"/>
+        <xsl:variable name="propNameValue" select="xat:json.atomicValue(name())"/>
+        <xsl:variable name="propName" select="xat:json.prop($propNameName, $propNameValue)"/>
+
+        <xsl:variable name="propContentName" select="xat:json.propName('content')"/>
+        <xsl:variable name="propContentValue">
+            <xsl:apply-templates select="." mode="xat.json"/>
+        </xsl:variable>
+        <xsl:variable name="propContent" select="xat:json.prop($propContentName, $propContentValue)"/>
+
+        <xsl:variable name="inner" select="xat:codegen.list(($propName, $propContent))"/>
+        <xsl:value-of select="xat:codegen.braces($inner)"/>
+
+    </xsl:template>
+
     <xsl:template match="*" mode="xat.json.array">
 
         <xsl:variable name="elements" as="xs:string*">
-            <xsl:apply-templates select="(@* | node())[xat:json.isUseful(.)]" mode="xat.json"/>
+            <xsl:apply-templates select="(@* | node())[xat:json.isUseful(.)]" mode="xat.json.ae"/>
         </xsl:variable>
 
         <xsl:value-of select="xat:codegen.brackets(xat:codegen.list($elements))"/>
