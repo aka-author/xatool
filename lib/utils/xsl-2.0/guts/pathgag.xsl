@@ -11,8 +11,8 @@
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs"
+    xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs"
     version="2.0">
     
     <!-- 
@@ -26,7 +26,7 @@
     <!-- 
         A path to an URI
     -->
-    <xsl:template match="*" mode="cpm.path.2uri">
+    <xsl:template match="*" mode="xat.path.2uri">
         <xsl:value-of select="@path"/>
     </xsl:template>
     
@@ -34,7 +34,7 @@
     <!-- 
         An URI to a path 
     -->
-    <xsl:template match="*" mode="cpm.uri.2path">
+    <xsl:template match="*" mode="xat.uri.2path">
         <xsl:value-of select="@uri"/>
     </xsl:template>
           

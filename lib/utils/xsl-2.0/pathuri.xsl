@@ -10,8 +10,8 @@
 -->    
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs"
     version="2.0">
 
     <!-- 
@@ -46,23 +46,23 @@
     -->
 
     <!-- A path to an URI -->
-    <xsl:function name="cpm:path.2uri">
+    <xsl:function name="xat:path.2uri">
         <xsl:param name="strPath"/>
         <xsl:param name="strSourceOS"/>
         <xsl:variable name="xmlData">
             <data os="{$strSourceOS}" path="{$strPath}"/>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlData/data" mode="cpm.path.2uri"/>
+        <xsl:apply-templates select="$xmlData/data" mode="xat.path.2uri"/>
     </xsl:function>
         
     <!-- An URI to a path -->
-    <xsl:function name="cpm:uri.2path">
+    <xsl:function name="xat:uri.2path">
         <xsl:param name="strURI"/>
         <xsl:param name="strTargetOS"/>
         <xsl:variable name="xmlData">
             <data os="{$strTargetOS}" uri="{$strURI}"/>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlData/data" mode="cpm.uri.2path"/>
+        <xsl:apply-templates select="$xmlData/data" mode="xat.uri.2path"/>
     </xsl:function>
 
     

@@ -10,8 +10,8 @@
 -->    
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs" version="2.0">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs" version="2.0">
 
     <!-- 
         Modules 
@@ -29,7 +29,7 @@
     -->
 
     <!-- page=1&size=10 -->
-    <xsl:function name="cpm:uriparse.params">
+    <xsl:function name="xat:uriparse.params">
         <xsl:param name="strParams"/>
         <xsl:variable name="seqParams" select="tokenize($strParams,'&amp;')" as="xs:string*"/>
         <xsl:for-each select="$seqParams">
@@ -41,15 +41,15 @@
     </xsl:function>
 
     <!-- wombat.html -->
-    <xsl:function name="cpm:parseuri.filename">
+    <xsl:function name="xat:parseuri.filename">
         <xsl:param name="strFilename"/>
         <xsl:choose>
             <xsl:when test="contains($strFilename, '.')">
                 <base>
-                    <xsl:value-of select="cpm:morestr.reverseAfter($strFilename, '.')"/>
+                    <xsl:value-of select="xat:morestr.reverseAfter($strFilename, '.')"/>
                 </base>
                 <type>
-                    <xsl:value-of select="cpm:morestr.reverseBefore($strFilename, '.')"/>
+                    <xsl:value-of select="xat:morestr.reverseBefore($strFilename, '.')"/>
                 </type>
             </xsl:when>
             <xsl:otherwise>
@@ -61,7 +61,7 @@
     </xsl:function>
 
     <!-- c:/zoo/animals/wombat.html or zoo/animals/wombat.html -->
-    <xsl:function name="cpm:uriparse.localFile">
+    <xsl:function name="xat:uriparse.localFile">
         <xsl:param name="strLocalPath"/>
         <xsl:variable name="seqFSObjects" select="tokenize($strLocalPath, '/')"/>
         <xsl:for-each select="$seqFSObjects">
@@ -73,12 +73,12 @@
                 </xsl:when>
                 <xsl:when test="position() != last()">
                     <folder>
-                        <xsl:copy-of select="cpm:parseuri.filename(.)"/>
+                        <xsl:copy-of select="xat:parseuri.filename(.)"/>
                     </folder>
                 </xsl:when>
                 <xsl:otherwise>
                     <file>
-                        <xsl:copy-of select="cpm:parseuri.filename(.)"/>
+                        <xsl:copy-of select="xat:parseuri.filename(.)"/>
                     </file>
                 </xsl:otherwise>
             </xsl:choose>
@@ -86,7 +86,7 @@
     </xsl:function>
 
     <!-- /zoo/animals/wombat.html?page=1&amp;size=10#food -->
-    <xsl:function name="cpm:uriparse.localPathGroup">
+    <xsl:function name="xat:uriparse.localPathGroup">
         <xsl:param name="strPathGroup"/>
         <xsl:variable name="strPath">
             <xsl:choose>
@@ -100,33 +100,33 @@
         </xsl:variable>
         <xsl:choose>
             <xsl:when test="contains($strPath, '?') and contains($strPath, '#')">
-                <xsl:copy-of select="cpm:uriparse.localFile(substring-before($strPath, '?'))"/>
-                <xsl:variable name="strParams" select="cpm:morestr.afterBefore($strPath, '?', '#')"/>
-                <xsl:copy-of select="cpm:uriparse.params($strParams)"/>
+                <xsl:copy-of select="xat:uriparse.localFile(substring-before($strPath, '?'))"/>
+                <xsl:variable name="strParams" select="xat:morestr.afterBefore($strPath, '?', '#')"/>
+                <xsl:copy-of select="xat:uriparse.params($strParams)"/>
                 <anchor>
                     <xsl:value-of select="substring-after($strPath, '#')"/>
                 </anchor>
             </xsl:when>
             <xsl:when test="contains($strPath, '?') and not(contains($strPath, '#'))">
-                <xsl:copy-of select="cpm:uriparse.localFile(substring-before($strPath, '?'))"/>
+                <xsl:copy-of select="xat:uriparse.localFile(substring-before($strPath, '?'))"/>
                 <xsl:variable name="strParams" select="substring-after($strPath, '?')"/>
-                <xsl:copy-of select="cpm:uriparse.params($strParams)"/>
+                <xsl:copy-of select="xat:uriparse.params($strParams)"/>
             </xsl:when>
             <xsl:when test="not(contains($strPath, '?')) and contains($strPath, '#')">
-                <xsl:copy-of select="cpm:uriparse.localFile(substring-before($strPath, '#'))"/>
+                <xsl:copy-of select="xat:uriparse.localFile(substring-before($strPath, '#'))"/>
                 <anchor>
                     <xsl:value-of select="substring-after($strPath, '#')"/>
                 </anchor>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:copy-of select="cpm:uriparse.localFile($strPath)"/>
+                <xsl:copy-of select="xat:uriparse.localFile($strPath)"/>
             </xsl:otherwise>
         </xsl:choose>
 
     </xsl:function>
 
     <!-- www.example.com:80 -->
-    <xsl:function name="cpm:uriparse.hostPort">
+    <xsl:function name="xat:uriparse.hostPort">
         <xsl:param name="strHostPort"/>
         <xsl:choose>
             <xsl:when test="contains($strHostPort, ':')">
@@ -146,7 +146,7 @@
     </xsl:function>
 
     <!-- adm:qwerty -->
-    <xsl:function name="cpm:uriparse.credentials">
+    <xsl:function name="xat:uriparse.credentials">
         <xsl:param name="strCredentials"/>
         <xsl:choose>
             <xsl:when test="contains($strCredentials, ':')">
@@ -166,7 +166,7 @@
     </xsl:function>
 
     <!-- adm:qwerty@www.example.com:80 -->
-    <xsl:function name="cpm:uriparse.addressGroup">
+    <xsl:function name="xat:uriparse.addressGroup">
         <xsl:param name="strAddressGroup"/>
 
         <xsl:variable name="strAddress" select="substring-after($strAddressGroup, '//')"/>
@@ -174,39 +174,39 @@
         <xsl:choose>
             <xsl:when test="contains($strAddressGroup, '@')">
                 <xsl:variable name="strCredentials" select="substring-before($strAddress, '@')"/>
-                <xsl:copy-of select="cpm:uriparse.credentials($strCredentials)"/>
+                <xsl:copy-of select="xat:uriparse.credentials($strCredentials)"/>
                 <xsl:variable name="strHostPort" select="substring-after($strAddress, '@')"/>
-                <xsl:copy-of select="cpm:uriparse.hostPort($strHostPort)"/>
+                <xsl:copy-of select="xat:uriparse.hostPort($strHostPort)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:copy-of select="cpm:uriparse.hostPort($strAddress)"/>
+                <xsl:copy-of select="xat:uriparse.hostPort($strAddress)"/>
             </xsl:otherwise>
         </xsl:choose>
 
     </xsl:function>
 
     <!-- adm:qwerty@www.example.com:80/zoo/animals/wombat.html?page=1&size=10#food -->
-    <xsl:function name="cpm:uriparse.protocolRemain">
+    <xsl:function name="xat:uriparse.protocolRemain">
         <xsl:param name="strRemain"/>
 
-        <xsl:variable name="strStart" select="cpm:regexp.start(cpm:urisyn.addressGroup())"/>
+        <xsl:variable name="strStart" select="xat:regexp.start(xat:urisyn.addressGroup())"/>
 
         <xsl:analyze-string select="$strRemain" regex="{$strStart}">
             <xsl:matching-substring>
-                <xsl:copy-of select="cpm:uriparse.addressGroup(.)"/>
+                <xsl:copy-of select="xat:uriparse.addressGroup(.)"/>
             </xsl:matching-substring>
             <xsl:non-matching-substring>
-                <xsl:copy-of select="cpm:uriparse.localPathGroup(.)"/>
+                <xsl:copy-of select="xat:uriparse.localPathGroup(.)"/>
             </xsl:non-matching-substring>
         </xsl:analyze-string>
 
     </xsl:function>
 
     <!-- http://adm:qwerty@www.example.com:80/zoo/animals/wombat.html?page=1&size=10#food -->
-    <xsl:function name="cpm:uriparse.uri">
+    <xsl:function name="xat:uriparse.uri">
         <xsl:param name="strURI"/>
 
-        <xsl:variable name="strStart" select="cpm:regexp.start(cpm:urisyn.fullProtocol())"/>
+        <xsl:variable name="strStart" select="xat:regexp.start(xat:urisyn.fullProtocol())"/>
 
         <uri source="{$strURI}">
             <xsl:analyze-string select="$strURI" regex="{$strStart}">
@@ -216,7 +216,7 @@
                     </protocol>
                 </xsl:matching-substring>
                 <xsl:non-matching-substring>
-                    <xsl:copy-of select="cpm:uriparse.protocolRemain(.)"/>
+                    <xsl:copy-of select="xat:uriparse.protocolRemain(.)"/>
                 </xsl:non-matching-substring>
             </xsl:analyze-string>
         </uri>

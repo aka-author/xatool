@@ -4,9 +4,6 @@
     exclude-result-prefixes="xs"
     version="2.0">
     
-    <xsl:import href="guts/style.xsl"/>
-    <xsl:import href="guts/meta.xsl"/>
-    <xsl:import href="guts/js.xsl"/>
-    <xsl:import href="guts/doctypes.xsl"/>
+    <xsl:import href="guts/queries.xsl"/>
     
 </xsl:stylesheet>

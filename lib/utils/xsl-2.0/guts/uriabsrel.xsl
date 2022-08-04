@@ -10,8 +10,8 @@
 -->    
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs" version="2.0">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs" version="2.0">
 
     <!-- 
         Modules
@@ -26,16 +26,16 @@
     -->
 
     <!-- Detecting a common beginning for a source and a target -->
-    <xsl:function name="cpm:uri.commonBeginning">
+    <xsl:function name="xat:uri.commonBeginning">
         <xsl:param name="seqSource"/>
         <xsl:param name="seqTarget"/>
 
         <xsl:variable name="strSourceItem">
-            <xsl:value-of select="cpm:uri.serialize($seqSource[1])"/>
+            <xsl:value-of select="xat:uri.serialize($seqSource[1])"/>
         </xsl:variable>
 
         <xsl:variable name="strTargetItem">
-            <xsl:value-of select="cpm:uri.serialize($seqTarget[1])"/>
+            <xsl:value-of select="xat:uri.serialize($seqTarget[1])"/>
         </xsl:variable>
 
         <xsl:if test="$strSourceItem = $strTargetItem">
@@ -44,20 +44,20 @@
             </file>
             <xsl:variable name="seqSourceNew" select="$seqSource[position() &gt; 1]"/>
             <xsl:variable name="seqTargetNew" select="$seqTarget[position() &gt; 1]"/>
-            <xsl:copy-of select="cpm:uri.commonBeginning($seqSourceNew, $seqTargetNew)"/>
+            <xsl:copy-of select="xat:uri.commonBeginning($seqSourceNew, $seqTargetNew)"/>
         </xsl:if>
 
     </xsl:function>
 
     <!-- Assembling a relative path -->
-    <xsl:function name="cpm:uri.relative">
+    <xsl:function name="xat:uri.relative">
         <xsl:param name="strSource"/>
         <xsl:param name="strTarget"/>
 
-        <xsl:variable name="seqSource" select="cpm:uriparse.uri($strSource)/*"/>
-        <xsl:variable name="seqTarget" select="cpm:uriparse.uri($strTarget)/*"/>
+        <xsl:variable name="seqSource" select="xat:uriparse.uri($strSource)/*"/>
+        <xsl:variable name="seqTarget" select="xat:uriparse.uri($strTarget)/*"/>
 
-        <xsl:variable name="seqCommon" select="cpm:uri.commonBeginning($seqSource, $seqTarget)"/>
+        <xsl:variable name="seqCommon" select="xat:uri.commonBeginning($seqSource, $seqTarget)"/>
         <xsl:variable name="numStepsUp" select="count($seqSource) - count($seqCommon)"/>
 
         <xsl:variable name="seqRawMoveUp">
@@ -74,7 +74,7 @@
         <xsl:variable name="strRelative">
             <xsl:value-of select="$seqMoveUp"/>
             <xsl:for-each select="$seqTarget[position() &gt; count($seqCommon)]">
-                <xsl:value-of select="cpm:uri.serialize(.)"/>
+                <xsl:value-of select="xat:uri.serialize(.)"/>
                 <xsl:if test="following-sibling::*">
                     <xsl:text>/</xsl:text>
                 </xsl:if>
@@ -90,7 +90,7 @@
         Assembling an absolute URI 
     -->
 
-    <xsl:function name="cpm:uri.absolute">
+    <xsl:function name="xat:uri.absolute">
 
         <!-- E.g. file:/c:/foo/bar or file:/c:/foo/bar/ -->
         <!-- A relative URI is also allowed here -->
@@ -105,7 +105,7 @@
             </xsl:if>
         </xsl:variable>
 
-        <xsl:value-of select="cpm:uri.normalize(concat($strBase, $strSep, $strRelative))"/>
+        <xsl:value-of select="xat:uri.normalize(concat($strBase, $strSep, $strRelative))"/>
 
     </xsl:function>
 
@@ -114,7 +114,7 @@
         Detecting accurate base URI 
     -->
 
-    <xsl:function name="cpm:uri.baseURI">
+    <xsl:function name="xat:uri.baseURI">
         <xsl:param name="xmlItem"/>
         <xsl:variable name="strTmp" select="base-uri($xmlItem)"/>
         <xsl:choose>

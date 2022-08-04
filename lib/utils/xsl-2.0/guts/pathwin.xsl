@@ -10,8 +10,8 @@
 -->    
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs" version="2.0">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs" version="2.0">
 
     <!-- 
         Modules
@@ -25,7 +25,7 @@
         Converting a Windows path to an URI
     -->
     
-    <xsl:template match="*[lower-case(@os) = 'windows']" mode="cpm.path.2uri">
+    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat.path.2uri">
 
         <xsl:variable name="strIRI">
             <xsl:text>file:/</xsl:text>
@@ -41,13 +41,13 @@
         Converting an URI to a Windows path
     -->
     
-    <xsl:template match="*[lower-case(@os) = 'windows']" mode="cpm.uri.2path">        
+    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat.uri.2path">        
 
         <xsl:variable name="strRawPath">
-            <xsl:value-of select="cpm:uri.localFile(@uri)"/>
+            <xsl:value-of select="xat:uri.localFile(@uri)"/>
         </xsl:variable>
 
-        <xsl:value-of select="cpm:encoding.decodeURI(translate($strRawPath, '/', '\'))"/>
+        <xsl:value-of select="xat:encoding.decodeURI(translate($strRawPath, '/', '\'))"/>
 
     </xsl:template>
 

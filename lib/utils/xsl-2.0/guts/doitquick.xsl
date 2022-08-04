@@ -11,8 +11,8 @@
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs"
+    xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs"
     version="2.0">
     
     <!-- 
@@ -20,7 +20,7 @@
     -->
     
     <!-- Returning a default string instead of empty one -->
-    <xsl:function name="cpm:diq.strDef">
+    <xsl:function name="xat:diq.strDef">
         <xsl:param name="strItem"/>
         <xsl:param name="strDefaultItem"/>
         <xsl:choose>
@@ -34,7 +34,7 @@
     </xsl:function>
     
     <!-- Returning a default number instead of zero -->
-    <xsl:function name="cpm:diq.numDef" as="xs:decimal">
+    <xsl:function name="xat:diq.numDef" as="xs:decimal">
         <xsl:param name="numItem" as="xs:decimal"/>
         <xsl:param name="numDefaultItem" as="xs:decimal"/>
         <xsl:choose>
@@ -48,7 +48,7 @@
     </xsl:function>
     
     <!-- Selecting a string value -->
-    <xsl:function name="cpm:diq.strIif">
+    <xsl:function name="xat:diq.strIif">
         <xsl:param name="blnSwitcher" as="xs:boolean"/>
         <xsl:param name="strTrueItem"/>
         <xsl:param name="strFalseItem"/>

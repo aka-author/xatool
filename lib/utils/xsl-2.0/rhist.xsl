@@ -10,24 +10,24 @@
 -->    
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs" version="2.0">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs" version="2.0">
     
     <!-- 
         Local utilities
     -->
     
-    <xsl:template match="*" mode="cpm.rhist.id">
+    <xsl:template match="*" mode="xat.rhist.id">
         <xsl:value-of select="generate-id()"/>
     </xsl:template>
     
-    <xsl:template match="*[@id]" mode="cpm.rhist.id">
+    <xsl:template match="*[@id]" mode="xat.rhist.id">
         <xsl:value-of select="@id"/>
     </xsl:template>
     
-    <xsl:function name="cpm:rhist.id">
+    <xsl:function name="xat:rhist.id">
         <xsl:param name="elmSomeItem"/>
-        <xsl:apply-templates select="$elmSomeItem" mode="cpm.rhist.id"/>
+        <xsl:apply-templates select="$elmSomeItem" mode="xat.rhist.id"/>
     </xsl:function>
     
 
@@ -36,31 +36,31 @@
     -->
 
     <!-- True if does not contain -->
-    <xsl:function name="cpm:rhist.isUnique" as="xs:boolean">
+    <xsl:function name="xat:rhist.isUnique" as="xs:boolean">
         <xsl:param name="elmHistory"/>
         <xsl:param name="strItemId"/>
         <xsl:value-of select="not(exists($elmHistory/item[@id = $strItemId]))"/>
     </xsl:function>
 
     <!-- The same but you pass an element instaed of its @id -->
-    <xsl:function name="cpm:rhist.isUniqueId" as="xs:boolean">
+    <xsl:function name="xat:rhist.isUniqueId" as="xs:boolean">
         <xsl:param name="elmHistory"/>
         <xsl:param name="elmTarget"/>
-        <xsl:value-of select="not(exists($elmHistory/item[@id = cpm:rhist.id($elmTarget)]))"/>
+        <xsl:value-of select="not(exists($elmHistory/item[@id = xat:rhist.id($elmTarget)]))"/>
     </xsl:function>
 
     <!-- True if contains -->
-    <xsl:function name="cpm:rhist.contains" as="xs:boolean">
+    <xsl:function name="xat:rhist.contains" as="xs:boolean">
         <xsl:param name="elmHistory"/>
         <xsl:param name="strItemId"/>
         <xsl:value-of select="exists($elmHistory/item[@id = $strItemId])"/>
     </xsl:function>
     
     <!-- The same but you pass an element instaed of its @id -->
-    <xsl:function name="cpm:rhist.containsId" as="xs:boolean">
+    <xsl:function name="xat:rhist.containsId" as="xs:boolean">
         <xsl:param name="elmHistory"/>
         <xsl:param name="elmTarget"/>
-        <xsl:value-of select="exists($elmHistory/item[@id = cpm:rhist.id($elmTarget)])"/>
+        <xsl:value-of select="exists($elmHistory/item[@id = xat:rhist.id($elmTarget)])"/>
     </xsl:function>
 
 
@@ -68,7 +68,7 @@
         Detecting target items
     -->
 
-    <xsl:function name="cpm:rhist.targets" as="xs:string*">
+    <xsl:function name="xat:rhist.targets" as="xs:string*">
         <xsl:param name="elmHistory"/>
         <xsl:variable name="seqLinks" select="$elmHistory//link/@ref" as="xs:string*"/>
         <xsl:variable name="seqItems" select="$elmHistory//item/@id" as="xs:string*"/>
@@ -81,7 +81,7 @@
     -->
 
     <!-- A reference with a payload -->
-    <xsl:function name="cpm:rhist.link">
+    <xsl:function name="xat:rhist.link">
         <xsl:param name="strRefItemId"/>
         <xsl:param name="anyPayload"/>
         <link>
@@ -95,9 +95,9 @@
     </xsl:function>
 
     <!-- Just a reference  -->
-    <xsl:function name="cpm:rhist.link">
+    <xsl:function name="xat:rhist.link">
         <xsl:param name="strRefItemId"/>
-        <xsl:copy-of select="cpm:rhist.link($strRefItemId, '')"/>
+        <xsl:copy-of select="xat:rhist.link($strRefItemId, '')"/>
     </xsl:function>
 
 
@@ -106,7 +106,7 @@
     -->
 
     <!-- An node with links and a payload -->
-    <xsl:function name="cpm:rhist.node">
+    <xsl:function name="xat:rhist.node">
         <xsl:param name="strItemId"/>
         <xsl:param name="xmlLinks"/>
         <xsl:param name="anyPayload"/>
@@ -124,10 +124,10 @@
     </xsl:function>
 
     <!-- Just a node with links -->
-    <xsl:function name="cpm:rhist.node">
+    <xsl:function name="xat:rhist.node">
         <xsl:param name="strItemId"/>
         <xsl:param name="xmlLinks"/>
-        <xsl:copy-of select="cpm:rhist.node($strItemId, $xmlLinks, '')"/>
+        <xsl:copy-of select="xat:rhist.node($strItemId, $xmlLinks, '')"/>
     </xsl:function>
 
 
@@ -136,7 +136,7 @@
     -->
 
     <!-- An item with a payload -->
-    <xsl:function name="cpm:rhist.item">
+    <xsl:function name="xat:rhist.item">
         <xsl:param name="strItemId"/>
         <xsl:param name="anyPayload"/>
         <item>
@@ -150,9 +150,9 @@
     </xsl:function>
 
     <!-- Just a node -->
-    <xsl:function name="cpm:rhist.item">
+    <xsl:function name="xat:rhist.item">
         <xsl:param name="strItemId"/>
-        <xsl:copy-of select="cpm:rhist.item($strItemId, '')"/>
+        <xsl:copy-of select="xat:rhist.item($strItemId, '')"/>
     </xsl:function>
 
 
@@ -160,7 +160,7 @@
         Pushing an item to a history 
     -->
 
-    <xsl:function name="cpm:rhist.push">
+    <xsl:function name="xat:rhist.push">
         <xsl:param name="elmHistory"/>
         <xsl:param name="elmItem"/>
 
@@ -172,10 +172,10 @@
     </xsl:function>
 
     <!-- The same but you pass an element instaed of its @id -->
-    <xsl:function name="cpm:rhist.pushIdAsItem">
+    <xsl:function name="xat:rhist.pushIdAsItem">
         <xsl:param name="elmHistory"/>
         <xsl:param name="elmTarget"/>
-        <xsl:copy-of select="cpm:rhist.push($elmHistory, cpm:rhist.item(cpm:rhist.id($elmTarget)))"/>
+        <xsl:copy-of select="xat:rhist.push($elmHistory, xat:rhist.item(xat:rhist.id($elmTarget)))"/>
     </xsl:function>
 
 
@@ -184,7 +184,7 @@
     -->
 
     <!-- Creating a new history and pushing there an item at once -->
-    <xsl:function name="cpm:rhist.init">
+    <xsl:function name="xat:rhist.init">
         <xsl:param name="elmItem"/>
 
         <history>
@@ -194,7 +194,7 @@
     </xsl:function>
 
     <!-- Just creating an empty history -->
-    <xsl:function name="cpm:rhist.new">
+    <xsl:function name="xat:rhist.new">
         <history/>
     </xsl:function>
 

@@ -11,8 +11,8 @@
 <!-- * * ** *** ***** ******** ************* ********************* -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:cpm="http://cpmonster.com/xmlns/cpm"
-    exclude-result-prefixes="cpm xs"
+    xmlns:xat="http://itsurim.com/xatool"
+    exclude-result-prefixes="xat xs"
     version="2.0">
     
     <!-- 
@@ -27,7 +27,7 @@
         Normalizing an URI (suppressing redundant . and ..)
     -->
     
-    <xsl:function name="cpm:uri.normalize">
+    <xsl:function name="xat:uri.normalize">
         <xsl:param name="strURI"/>
         <xsl:value-of select="$strURI"/>
     </xsl:function>
