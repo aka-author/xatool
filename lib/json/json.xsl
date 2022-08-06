@@ -98,19 +98,6 @@
 
     </xsl:function>
 
-    <xsl:function name="xat:json.binome">
-        <xsl:param name="name1"/>
-        <xsl:param name="content1"/>
-        <xsl:param name="name2"/>
-        <xsl:param name="content2"/>
-
-        <xsl:variable name="prop1" select="xat:json.prop($name1, $content1)"/>
-        <xsl:variable name="prop2" select="xat:json.prop($name2, $content2)"/>
-
-        <xsl:value-of select="xat:codegen.braces(xat:codegen.list(($prop1, $prop2)))"/>
-
-    </xsl:function>
-
 
     <!-- Detecting useful nodes -->
 
@@ -213,18 +200,6 @@
 
     <!-- Serializing arrays -->
 
-    <xsl:template match="*" mode="xat.json.array">
-
-        <xsl:variable name="elements" as="xs:string*">
-            <xsl:for-each select="(node() | @*)[xat:json.isUseful(.)]">
-                <xsl:value-of select="xat:json.monome(xat:json.propName(.), xat:json.pulp(.))"/>
-            </xsl:for-each>
-        </xsl:variable>
-
-        <xsl:value-of select="xat:codegen.brackets(xat:codegen.list($elements))"/>
-
-    </xsl:template>
-
     <xsl:template match="*" mode="xat.json.isUniform" as="xs:boolean">
         <xsl:variable name="childrenNames" as="xs:string*">
             <xsl:copy-of select="node()[xat:json.isUseful(.)]/xat:json.propName(.)"/>
@@ -237,13 +212,25 @@
         </xsl:variable>
         <xsl:sequence select="$countUniqueChildrenNames = 1 and $countUsefulAttrs = 0"/>
     </xsl:template>
-
+    
     <xsl:function name="xat:json.isUniform" as="xs:boolean">
         <xsl:param name="arrayElement"/>
         <xsl:apply-templates select="$arrayElement" mode="xat.json.isUniform"/>
     </xsl:function>
+    
+    <xsl:template match="*" mode="xat.json.array">
 
+        <xsl:variable name="elements" as="xs:string*">
+            <xsl:for-each select="(node() | @*)[xat:json.isUseful(.)]">
+                <xsl:value-of select="xat:json.monome(xat:json.propName(.), xat:json.pulp(.))"/>
+            </xsl:for-each>
+        </xsl:variable>
 
+        <xsl:value-of select="xat:codegen.brackets(xat:codegen.list($elements))"/>
+
+    </xsl:template>
+
+    
     <!-- Generic transform -->
 
     <xsl:template match="node() | @*" mode="xat.json.pulp">
