@@ -8,25 +8,16 @@
 
     <!-- Serializing names -->
 
-    <xsl:template match="node()" mode="xat.json.allowedName">
-        <xsl:value-of select="."/>
-    </xsl:template>
-
-    <xsl:function name="xat:json.allowedName">
-        <xsl:param name="str"/>
-        <xsl:apply-templates select="$str" mode="xat.json.allowedName"/>
-    </xsl:function>
-
     <xsl:template match="node()[self::text()]" mode="xat.json.propName">
         <xsl:value-of select="'#'"/>
     </xsl:template>
 
     <xsl:template match="@*" mode="xat.json.propName">
-        <xsl:value-of select="concat('@', xat:json.allowedName(name()))"/>
+        <xsl:value-of select="concat('@', name())"/>
     </xsl:template>
 
     <xsl:template match="*" mode="xat.json.propName">
-        <xsl:value-of select="xat:json.allowedName(name())"/>
+        <xsl:value-of select="name()"/>
     </xsl:template>
 
     <xsl:function name="xat:json.propName">
@@ -44,6 +35,8 @@
             <esc regexp="&quot;" escaped="\&quot;"/>
             <esc regexp="\\" escaped="\\"/>
             <esc regexp="\t" escaped="\t"/>
+            <esc regexp="\n" escaped="\n"/>
+            <esc regexp="\r" escaped="\r"/>
         </xsl:variable>
 
         <xsl:value-of select="xat:codegen.escapeExplicit($val, $esc)"/>
