@@ -61,12 +61,10 @@
         <xsl:variable name="numStepsUp" select="count($seqSource) - count($seqCommon)"/>
 
         <xsl:variable name="seqRawMoveUp">
-            <xsl:value-of
-                select="
+            <xsl:value-of select="
                     for $i in 1 to $numStepsUp - 1
                     return
-                        '../'"
-            />
+                        '../'"/>
         </xsl:variable>
 
         <xsl:variable name="seqMoveUp" select="translate($seqRawMoveUp, ' ', '')"/>
@@ -99,14 +97,29 @@
         <!-- E.g. kaboom.jpg or taraboom/kaboom.jpg -->
         <xsl:param name="strRelative"/>
 
-        <xsl:variable name="strSep">
-            <xsl:if test="not(ends-with($strBase, '/'))">
-                <xsl:text>/</xsl:text>
-            </xsl:if>
-        </xsl:variable>
+        <xsl:choose>
 
-        <xsl:value-of select="xat:uri.normalize(concat($strBase, $strSep, $strRelative))"/>
+            <xsl:when test="xat:uri.isRelative($strRelative)">
+                <xsl:variable name="strSep">
+                    <xsl:if test="not(ends-with($strBase, '/'))">
+                        <xsl:text>/</xsl:text>
+                    </xsl:if>
+                </xsl:variable>
+                <xsl:value-of select="xat:uri.normalize(concat($strBase, $strSep, $strRelative))"/>
+            </xsl:when>
 
+            <xsl:otherwise>
+                <xsl:value-of select="$strRelative"/>
+            </xsl:otherwise>
+
+        </xsl:choose>
+
+    </xsl:function>
+
+    <xsl:function name="xat:uri.absoluteRef">
+        <xsl:param name="strBase"/>
+        <xsl:param name="strRelative"/>
+        <xsl:value-of select="xat:uri.absolute(xat:uri.parentFolder($strBase), $strRelative)"/>
     </xsl:function>
 
 
@@ -119,12 +132,12 @@
         <xsl:variable name="strTmp" select="base-uri($xmlItem)"/>
         <xsl:choose>
             <xsl:when test="starts-with($strTmp, 'file:/')">
-                <xsl:value-of select="$strTmp"/>                
+                <xsl:value-of select="$strTmp"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="concat('file:/', $strTmp)"/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:function>      
+    </xsl:function>
 
 </xsl:stylesheet>

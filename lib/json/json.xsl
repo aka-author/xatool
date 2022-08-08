@@ -114,7 +114,7 @@
 
     <xsl:function name="xat:json.isUseful" as="xs:boolean">
         <xsl:param name="node"/>
-        <xsl:apply-templates select="$node" mode="xat.json.isUseful"> </xsl:apply-templates>
+        <xsl:apply-templates select="$node" mode="xat.json.isUseful"/> 
     </xsl:function>
 
 
@@ -138,7 +138,7 @@
 
     <xsl:function name="xat:json.isAtom" as="xs:boolean">
         <xsl:param name="node"/>
-        <xsl:apply-templates select="$node" mode="xat.json.isAtom"> </xsl:apply-templates>
+        <xsl:apply-templates select="$node" mode="xat.json.isAtom"/> 
     </xsl:function>
 
     <xsl:template match="node() | @*" mode="xat.json.atom">
@@ -170,7 +170,7 @@
 
     <xsl:function name="xat:json.asObject" as="xs:boolean">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.json.asObject"> </xsl:apply-templates>
+        <xsl:apply-templates select="$element" mode="xat.json.asObject"/> 
     </xsl:function>
 
     <xsl:template match="node()[self::text()] | @*" mode="xat.json.isObject" as="xs:boolean">

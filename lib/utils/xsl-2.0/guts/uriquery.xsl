@@ -165,7 +165,7 @@
         <!--
         <xsl:value-of select="matches($strURI, xat:urisyn.path())"/>
         -->
-        <xsl:value-of select="true()"/>
+        <xsl:value-of select="not(contains($strURI, ':/'))"/>
     </xsl:function>
 
     <xsl:function name="xat:uri.isLocal" as="xs:boolean">
