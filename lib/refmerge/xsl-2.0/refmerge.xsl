@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xat="http://itsurim.com/xatool" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs" version="2.0">
+    exclude-result-prefixes="xat xs" version="2.0">
 
-    <xsl:import href="../utils/xsl-2.0/pathuri.xsl"/>
+    <xsl:import href="../../utils/xsl-2.0/pathuri.xsl"/>
 
 
     <xsl:template match="*" mode="xat.refmerge.currUri">
