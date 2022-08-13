@@ -4,6 +4,7 @@
     exclude-result-prefixes="xat xs" version="2.0">
     
     <xsl:import href="../../../utils/xsl-2.0/pathuri.xsl"/>
+    
 
     <!-- 
         Detecting element properties
@@ -31,7 +32,7 @@
 
     <!-- Detecting maps -->
 
-    <xsl:template match="*" mode="xa.dita.isMap" as="xs:boolean">
+    <xsl:template match="*" mode="xat.dita.isMap" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
 
@@ -95,15 +96,15 @@
     
     <!-- Deteching all structure nodes -->
     
-    <xsl:template match="*" mode="xat:dita.isStructNode" as="xs:boolean">
+    <xsl:template match="*" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
     
-    <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat:dita.isStructNode" as="xs:boolean">
+    <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
     
-    <xsl:template match="*[xat:dita.isMap(.)]" mode="xat:dita.isStructNode" as="xs:boolean">
+    <xsl:template match="*[xat:dita.isMap(.)]" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
     
@@ -199,7 +200,7 @@
     
     <xsl:template match="*" mode="xat.dita.fileUri"/>
     
-    <xsl:template match="*[ancestor::*[xat:dita.isStructNode(.)]]" mode="xat.dita.fileUri">
+    <xsl:template match="*[not(xat:dita.isStructNode(.))]" mode="xat.dita.fileUri">
         <xsl:apply-templates select="ancestor::*[xat:dita.isStructNode(.)]" mode="#current"/>
     </xsl:template>
     
