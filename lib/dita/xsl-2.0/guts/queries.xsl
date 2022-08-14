@@ -169,7 +169,7 @@
     </xsl:template>
     
     <xsl:template match="bookmap" mode="xat.dita.plainTextTitle">
-        <xsl:value-of select="normalize-space(mainbooktitle)"/>
+        <xsl:value-of select="normalize-space(//mainbooktitle)"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.plainTextTitle">
@@ -187,7 +187,7 @@
     </xsl:template>
 
     <xsl:template match="bookmap" mode="xat.dita.docTitle">
-        <xsl:value-of select="mainbooktitle"/>
+        <xsl:value-of select="//mainbooktitle"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.docTitle">

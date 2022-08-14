@@ -3,7 +3,7 @@
     xmlns:xat="http://itsurim.com/xatool" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="xs" version="2.0">
 
-    <xsl:import href="../codegen/codegen.xsl"/>
+    <xsl:import href="../../codegen/xsl-2.0/codegen.xsl"/>
 
 
     <!-- Serializing names -->
@@ -108,7 +108,7 @@
         <xsl:sequence select="normalize-space(.) != ''"/>
     </xsl:template>
 
-    <xsl:template match="(*[name() != ''] | @*)" mode="xat.json.isUseful" as="xs:boolean">
+    <xsl:template match="*[name() != ''] | @*" mode="xat.json.isUseful" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
 

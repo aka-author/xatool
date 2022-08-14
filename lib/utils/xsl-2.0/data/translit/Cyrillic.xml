@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translit>
+    <alphabet source="Cyrillic" target="ASCII">
+        <translate source="АБДГДЕЁЗИЙКЛМНОПРСТУФЫЭабвгдеёзийклмнопрстуфыэ"
+                   target="ABVGDEEZIIKLMNOPRSTUFYEabvgdeeziiklmnoprstufye"/>
+        <char source="Ж" target="Zh"/>
+        <char source="Ч" target="Сh"/>
+        <char source="Ш" target="Sh"/>
+        <char source="Щ" target="Shch"/>
+        <char source="Х" target="kh"/>
+        <char source="Ц" target="Tc"/>
+        <char source="Ы" target="Y"/>
+        <char source="Ю" target="Iu"/>
+        <char source="Я" target="Ia"/>
+        <char source="ж" target="zh"/>
+        <char source="ч" target="ch"/>
+        <char source="ш" target="sh"/>
+        <char source="щ" target="shch"/>
+        <char source="х" target="kh"/>
+        <char source="ц" target="tc"/>
+        <char source="ы" target="y"/>
+        <char source="ю" target="iu"/>
+        <char source="я" target="ia"/>
+    </alphabet>
+</translit>
