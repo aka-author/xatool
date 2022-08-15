@@ -205,7 +205,7 @@
     </xsl:template>
     
     <xsl:template match="*[xat:dita.isStructNode(.)]" mode="xat.dita.fileUri">
-        <xsl:value-of select="@xtrf"/>
+        <xsl:value-of select="xat:path.2uri(@xtrf, xat:path.os(@xtrf))"/>
     </xsl:template>
     
     <xsl:function name="xat:dita.fileUri">

@@ -145,14 +145,14 @@
     <xsl:function name="xat:uri.base">
         <xsl:param name="strURI"/>
         <xsl:variable name="xmlURI" select="xat:uriparse.uri($strURI)"/>
-        <xsl:value-of select="$xmlURI//base"/>
+        <xsl:value-of select="$xmlURI/file/base"/>
     </xsl:function>
     
     <!-- html -->
     <xsl:function name="xat:uri.type">
         <xsl:param name="strURI"/>
         <xsl:variable name="xmlURI" select="xat:uriparse.uri($strURI)"/>
-        <xsl:value-of select="$xmlURI//type"/>
+        <xsl:value-of select="$xmlURI/file/type"/>
     </xsl:function>
 
 

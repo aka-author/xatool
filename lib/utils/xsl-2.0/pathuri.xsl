@@ -45,6 +45,18 @@
         Converting paths to URIs and vice versa
     -->
 
+    <xsl:function name="xat:path.os">
+        <xsl:param name="path"/>
+        <xsl:choose>
+            <xsl:when test="contains($path, '\')">
+                <xsl:value-of select="'windows'"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="'unix'"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+
     <!-- A path to an URI -->
     <xsl:function name="xat:path.2uri">
         <xsl:param name="strPath"/>

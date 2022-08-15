@@ -118,15 +118,14 @@
         </xsl:apply-templates>
     </xsl:function>
 
-
-    <xsl:template match="/*[not(@name)]|array/*" mode="xat.xon.laconicName">
+    <xsl:template match="/*[not(@name)] | array/*" mode="xat.xon.laconicName">
         <xsl:value-of select="name()"/>
     </xsl:template>
-    
-    <xsl:template match="record/*[@name]" mode="xat.xon.laconicName">
+
+    <xsl:template match="/*[@name] | record/*[@name]" mode="xat.xon.laconicName">
         <xsl:value-of select="@name"/>
     </xsl:template>
-    
+
     <xsl:template match="record/*[not(@name)]" mode="xat.xon.laconicName">
         <xsl:value-of select="name()"/>
     </xsl:template>
