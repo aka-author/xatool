@@ -272,5 +272,11 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.json"/>
     </xsl:function>
+    
+    <xsl:function name="xat:json.var">
+        <xsl:param name="varName"/>
+        <xsl:param name="element"/>
+        <xsl:value-of select="concat('var ', $varName, '=', xat:json($element), ';')"/>
+    </xsl:function>
 
 </xsl:stylesheet>

@@ -118,4 +118,34 @@
         </xsl:apply-templates>
     </xsl:function>
 
+
+    <xsl:template match="/*[not(@name)]|array/*" mode="xat.xon.laconicName">
+        <xsl:value-of select="name()"/>
+    </xsl:template>
+    
+    <xsl:template match="record/*[@name]" mode="xat.xon.laconicName">
+        <xsl:value-of select="@name"/>
+    </xsl:template>
+    
+    <xsl:template match="record/*[not(@name)]" mode="xat.xon.laconicName">
+        <xsl:value-of select="name()"/>
+    </xsl:template>
+
+    <xsl:function name="xat:xon.laconicName">
+        <xsl:param name="item"/>
+        <xsl:apply-templates select="$item" mode="xat.xon.laconicName"/>
+    </xsl:function>
+
+    <xsl:template match="property" mode="xat.xon.laconic">
+        <xsl:element name="{xat:xon.laconicName(.)}">
+            <xsl:value-of select="xat:xon.content(.)"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="array | record" mode="xat.xon.laconic">
+        <xsl:element name="{xat:xon.laconicName(.)}">
+            <xsl:apply-templates select="*" mode="#current"/>
+        </xsl:element>
+    </xsl:template>
+
 </xsl:stylesheet>
