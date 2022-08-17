@@ -180,19 +180,19 @@
 
     <!-- Document title -->
 
-    <xsl:template match="*" mode="xat.dita.docTitle"/>
+    <xsl:template match="*" mode="xat.dita.plainTextDocTitle"/>
 
-    <xsl:template match="map" mode="xat.dita.docTitle">
+    <xsl:template match="map" mode="xat.dita.plainTextDocTitle">
         <xsl:value-of select="title"/>
     </xsl:template>
 
-    <xsl:template match="bookmap" mode="xat.dita.docTitle">
+    <xsl:template match="bookmap" mode="xat.dita.plainTextDocTitle">
         <xsl:value-of select="//mainbooktitle"/>
     </xsl:template>
 
-    <xsl:function name="xat:dita.docTitle">
+    <xsl:function name="xat:dita.plainTextDocTitle">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="root($element)/*" mode="xat.dita.docTitle"/>
+        <xsl:apply-templates select="root($element)/*" mode="xat.dita.plainTextDocTitle"/>
     </xsl:function>
     
     
