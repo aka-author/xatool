@@ -14,7 +14,7 @@
 
     <xsl:function name="xat:xon.splitPath" as="xs:string*">
         <xsl:param name="path"/>
-        <xsl:value-of select="tokenize($path, '.')"/>
+        <xsl:copy-of select="tokenize($path, '\.')"/>
     </xsl:function>
 
     <xsl:function name="xat:xon.propertyPath">
@@ -26,6 +26,14 @@
     <xsl:function name="xat:xon.joinPath">
         <xsl:param name="names" as="xs:string*"/>
         <xsl:value-of select="string-join($names, '.')"/>
+    </xsl:function>
+    
+    <xsl:function name="xat:xon.pathTail" as="xs:string*">
+        <xsl:param name="path"/>
+        <xsl:variable name="names" as="xs:string*">
+            <xsl:copy-of select="xat:xon.splitPath($path)[position() &gt; 1]"/>
+        </xsl:variable>
+        <xsl:value-of select="xat:xon.joinPath($names)"/>
     </xsl:function>
 
     <xsl:function name="xat:xon.parentPath">
@@ -90,6 +98,20 @@
     <xsl:function name="xat:xon.path">
         <xsl:param name="item"/>
         <xsl:apply-templates select="$item" mode="xat.xon.path"/>
+    </xsl:function>
+
+    <xsl:template match="*" mode="xat.xon.metaAttr">
+        <xsl:param name="attrName"/>
+        <xsl:value-of select="@*[name() = $attrName]"/>
+    </xsl:template>
+    
+    <xsl:function name="xat:xon.metaAttr">
+        <xsl:param name="xon"/>
+        <xsl:param name="path"/>
+        <xsl:param name="attrName"/>
+        <xsl:apply-templates select="$xon//*[xat:xon.path(.) = $path]" mode="xat.xon.metaAttr">
+            <xsl:with-param name="attrName" select="$attrName"/>
+        </xsl:apply-templates>
     </xsl:function>
 
     <xsl:template match="property" mode="xat.xon.content">
