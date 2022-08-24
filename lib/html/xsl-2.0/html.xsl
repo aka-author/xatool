@@ -9,5 +9,6 @@
     <xsl:import href="guts/js.xsl"/>
     <xsl:import href="guts/doctypes.xsl"/>
     <xsl:import href="guts/img.xsl"/>
+    <xsl:import href="guts/css.xsl"/>
     
 </xsl:stylesheet>
