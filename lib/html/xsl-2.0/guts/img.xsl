@@ -17,6 +17,7 @@
         <xsl:param name="width" select="''"/>
         <xsl:param name="height" select="''"/>
         <xsl:param name="onclick" select="''"/>
+        <xsl:param name="style" select="''"/>
         
         <xsl:element name="img">
             <xsl:copy-of select="xat:usefulAttr('id', $id)"/>
@@ -27,6 +28,7 @@
             <xsl:copy-of select="xat:usefulAttr('width', $width)"/>
             <xsl:copy-of select="xat:usefulAttr('height', $height)"/>
             <xsl:copy-of select="xat:usefulAttr('onclick', $onclick)"/>
+            <xsl:attribute name="style" select="$style"/>
         </xsl:element>
      
     </xsl:template>

@@ -12,7 +12,12 @@
     <xsl:function name="xat:css.var">
         <xsl:param name="name"/>
         <xsl:param name="value"/>
-        <xsl:value-of select="xat:css.prop(concat('--', $name), $value)"/>
+        <xsl:variable name="prefix">
+            <xsl:if test="not(starts-with($name, '--'))">
+                <xsl:value-of select="'--'"/>
+            </xsl:if>
+        </xsl:variable>
+        <xsl:value-of select="xat:css.prop(concat($prefix, $name), $value)"/>
     </xsl:function>
 
     <xsl:function name="xat:css.block">
@@ -22,7 +27,7 @@
         <xsl:variable name="defs" select="string-join($definitions, ';')"/>
         <xsl:value-of select="concat($sels, ' {', $defs, '}')"/>
     </xsl:function>
-    
+
     <xsl:function name="xat:css.comment">
         <xsl:param name="comment"/>
         <xsl:value-of select="concat('/*', $comment, '*/')"/>

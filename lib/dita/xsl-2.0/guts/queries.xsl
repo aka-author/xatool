@@ -148,11 +148,11 @@
 
     <!-- Calculating the topic level -->
 
-    <xsl:template match="*" mode="level" as="xs:integer">
+    <xsl:template match="*" mode="xat.dita.level" as="xs:integer">
         <xsl:sequence select="0"/>
     </xsl:template>
 
-    <xsl:template match="*[xat:dita.isTopic(.)]" mode="level" as="xs:integer">
+    <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.level" as="xs:integer">
         <xsl:value-of select="count(parent::*[xat:dita.isTopic(.)]) + 1"/>
     </xsl:template>
 

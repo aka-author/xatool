@@ -113,7 +113,19 @@
             <xsl:with-param name="attrName" select="$attrName"/>
         </xsl:apply-templates>
     </xsl:function>
-
+    
+    <xsl:function name="xat:xon.mutability">
+        <xsl:param name="xon"/>
+        <xsl:param name="path"/>
+        <xsl:value-of select="xat:xon.metaAttr($xon, $path, 'mutability')"/>
+    </xsl:function>
+    
+    <xsl:function name="xat:xon.alias">
+        <xsl:param name="xon"/>
+        <xsl:param name="path"/>
+        <xsl:value-of select="xat:xon.metaAttr($xon, $path, 'alias')"/>
+    </xsl:function>
+    
     <xsl:template match="property" mode="xat.xon.content">
         <xsl:value-of select="."/>
     </xsl:template>

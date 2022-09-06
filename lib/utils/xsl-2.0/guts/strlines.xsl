@@ -13,6 +13,20 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
     exclude-result-prefixes="xat xs" version="2.0">
 
+
+    <!-- Making a line -->
+
+    <xsl:function name="xat:strln.win">
+        <xsl:param name="str"/>
+        <xsl:value-of select="concat($str, '&#13;&#10;')"/>
+    </xsl:function>
+    
+    <xsl:function name="xat:strln.ux">
+        <xsl:param name="str"/>
+        <xsl:value-of select="concat($str, '&#10;')"/>
+    </xsl:function>
+    
+
     <!-- 
         Splitting a text into lines
     -->
