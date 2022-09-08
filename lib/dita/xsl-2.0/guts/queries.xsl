@@ -28,6 +28,51 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.id"/>
     </xsl:function>
+    
+    
+    <!-- Detecting a language -->
+
+    <xsl:function name="xat:dita.extractLangCode">
+        <xsl:param name="langLoc"/>
+        <xsl:choose>
+            <xsl:when test="contains($langLoc, '_')">
+                <xsl:value-of select="substring-before($langLoc, '_')"/>
+            </xsl:when>
+            <xsl:when test="contains($langLoc, '-')">
+                <xsl:value-of select="substring-before($langLoc, '-')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$langLoc"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+
+    <xsl:template match="*[not(exists(parent::*))]" mode="xat.dita.lang">
+        <xsl:choose>
+            <xsl:when test="@xml:lang">
+                <xsl:value-of select="xat:dita.extractLangCode(@xml:lang)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="'en'"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="*[parent::*]" mode="xat.dita.lang">
+        <xsl:choose>
+            <xsl:when test="@xml:lang">
+                <xsl:value-of select="xat:dita.extractLangCode(@xml:lang)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="xat:dita.lang(parent::*)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:function name="xat:dita.lang">
+        <xsl:param name="element"/>
+        <xsl:apply-templates select="$element" mode="xat.dita.lang"/>
+    </xsl:function>
 
 
     <!-- Detecting maps -->
