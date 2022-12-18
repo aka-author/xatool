@@ -18,7 +18,7 @@
             <xsl:copy-of select="xat:usefulAttr('content', $content)"/>
             <xsl:copy-of select="xat:usefulAttr('charset', $charset)"/>
             <xsl:copy-of select="xat:usefulAttr('http-equiv', $httpEquiv)"/>
-
+    
         </xsl:element>
 
     </xsl:template>

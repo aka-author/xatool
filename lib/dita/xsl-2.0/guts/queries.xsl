@@ -2,9 +2,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
     exclude-result-prefixes="xat xs" version="2.0">
-    
+
     <xsl:import href="../../../utils/xsl-2.0/pathuri.xsl"/>
-    
+
 
     <!-- 
         Detecting element properties
@@ -28,8 +28,8 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.id"/>
     </xsl:function>
-    
-    
+
+
     <!-- Detecting a language -->
 
     <xsl:function name="xat:dita.extractLangCode">
@@ -46,7 +46,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
     <xsl:function name="xat:dita.extractCountryCode">
         <xsl:param name="localCode"/>
         <xsl:choose>
@@ -61,13 +61,13 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
     <xsl:function name="xat:dita.makeLocalCode">
         <xsl:param name="langCode"/>
         <xsl:param name="countryCode"/>
         <xsl:value-of select="concat($langCode, '-', upper-case($countryCode))"/>
     </xsl:function>
-    
+
     <xsl:function name="xat:dita.makeLocalSuffix">
         <xsl:param name="langCode"/>
         <xsl:param name="countryCode"/>
@@ -84,7 +84,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <xsl:template match="*[parent::*]" mode="xat.dita.local">
         <xsl:choose>
             <xsl:when test="@xml:lang">
@@ -100,11 +100,11 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.local"/>
     </xsl:function>
-    
+
     <xsl:template match="*" mode="xat.dita.lang">
         <xsl:value-of select="xat:dita.extractLangCode(xat:dita.local(.))"/>
     </xsl:template>
-    
+
     <xsl:function name="xat:dita.lang">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.lang"/>
@@ -141,8 +141,8 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isTopic"/>
     </xsl:function>
-    
-    
+
+
     <!-- Detecting terminal topics -->
 
     <xsl:template match="*" mode="xat.dita.isTerminalTopic" as="xs:boolean">
@@ -173,22 +173,22 @@
         <xsl:param name="topic"/>
         <xsl:apply-templates select="$topic" mode="xat.dita.isFolderTopic"/>
     </xsl:function>
-    
-    
+
+
     <!-- Deteching all structure nodes -->
-    
+
     <xsl:template match="*" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
-    
+
     <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
-    
+
     <xsl:template match="*[xat:dita.isMap(.)]" mode="xat.dita.isStructNode" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
-    
+
     <xsl:function name="xat:dita.isStructNode" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isStructNode"/>
@@ -248,7 +248,7 @@
     <xsl:template match="*" mode="xat.dita.plainTextTitle">
         <xsl:value-of select="normalize-space(title)"/>
     </xsl:template>
-    
+
     <xsl:template match="bookmap" mode="xat.dita.plainTextTitle">
         <xsl:value-of select="normalize-space(//mainbooktitle)"/>
     </xsl:template>
@@ -275,23 +275,84 @@
         <xsl:param name="element"/>
         <xsl:apply-templates select="root($element)/*" mode="xat.dita.plainTextDocTitle"/>
     </xsl:function>
-    
-    
+
+
     <!-- Detecting topic properties -->
-    
+
     <xsl:template match="*" mode="xat.dita.fileUri"/>
-    
+
     <xsl:template match="*[not(xat:dita.isStructNode(.))]" mode="xat.dita.fileUri">
         <xsl:apply-templates select="ancestor::*[xat:dita.isStructNode(.)]" mode="#current"/>
     </xsl:template>
-    
+
     <xsl:template match="*[xat:dita.isStructNode(.)]" mode="xat.dita.fileUri">
         <xsl:value-of select="xat:path.2uri(@xtrf, xat:path.os(@xtrf))"/>
     </xsl:template>
-    
+
     <xsl:function name="xat:dita.fileUri">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.fileUri"/>
+    </xsl:function>
+
+
+    <!-- 
+        Working with metadata
+    -->
+
+    <!-- Retrieving a value of any othermeta nested to a topic or a map -->
+    
+    <xsl:template match="*" mode="xat.dita.othermeta">
+        <xsl:param name="othermetaName"/>
+    </xsl:template>
+
+    <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.othermeta">
+        <xsl:param name="othermetaName"/>
+        <xsl:value-of select="prolog/metadata/othermeta[@name = $othermetaName]"/>
+    </xsl:template>
+
+    <xsl:template match="*[xat:dita.isMap(.)]" mode="xat.dita.othermeta">
+        <xsl:param name="othermetaName"/>
+        <xsl:value-of
+            select="(.//othermeta[not(ancestor::prolog) and @name = $othermetaName])[1]/@content"/>
+    </xsl:template>
+
+    <xsl:function name="xat:dita.othermeta">
+        <xsl:param name="element"/>
+        <xsl:param name="othermetaName"/>
+        <xsl:apply-templates select="$element" mode="xat.dita.othermeta">
+            <xsl:with-param name="othermetaName" select="$othermetaName"/>
+        </xsl:apply-templates>
+    </xsl:function>
+
+
+    <!-- Retrieving a value of any othermeta nested directly to a topic or a map -->
+    
+    <!-- 
+        The dita2pdf2 preprocessor injects maps' othermetas into a topics' prologs
+    -->
+    
+    <xsl:template match="*" mode="xat.dita.directOthermeta">
+        <xsl:param name="othermetaName"/>
+    </xsl:template>
+    
+    <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.directOthermeta">
+        <xsl:param name="othermetaName"/>
+        <xsl:value-of
+            select="prolog/metadata/othermeta[@name = $othermetaName and @xtrf = ../@xtrf]/@content"
+        />
+    </xsl:template>
+
+    <xsl:template match="*[xat:dita.isMap(.)]" mode="xat.dita.directOthermeta">
+        <xsl:param name="othermetaName"/>
+        <xsl:apply-templates select="." mode="xat.dita.othermeta"/>
+    </xsl:template>
+
+    <xsl:function name="xat:dita.directOthermeta">
+        <xsl:param name="element"/>
+        <xsl:param name="othermetaName"/>
+        <xsl:apply-templates select="$element" mode="xat.dita.directOthermeta">
+            <xsl:with-param name="othermetaName" select="$othermetaName"/>
+        </xsl:apply-templates>
     </xsl:function>
 
 </xsl:stylesheet>
