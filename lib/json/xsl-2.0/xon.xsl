@@ -79,6 +79,10 @@
         <xsl:sequence select="xat:xon.name($item) != ''"/>
     </xsl:function>
 
+    <xsl:template match="*" mode="xat.xon.path">
+        <xsl:value-of select="xat:xon.name(.)"/>
+    </xsl:template>
+
     <xsl:template match="record[xat:xon.hasName(.)]/*" mode="xat.xon.path">
         <xsl:value-of select="concat(xat:xon.path(..), '.', xat:xon.name(.))"/>
     </xsl:template>
