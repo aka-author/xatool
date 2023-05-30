@@ -162,30 +162,27 @@
 
     <xsl:function name="xat:uri.isRelative" as="xs:boolean">
         <xsl:param name="strURI"/>
-        <!--
-        <xsl:value-of select="matches($strURI, xat:urisyn.path())"/>
-        -->
-        <xsl:value-of select="not(contains($strURI, ':/'))"/>
+        <xsl:sequence select="not(contains($strURI, ':/'))"/>
     </xsl:function>
 
     <xsl:function name="xat:uri.isLocal" as="xs:boolean">
         <xsl:param name="strURI"/>
-        <xsl:value-of select="matches($strURI, xat:urisyn.URI())"/>
+        <xsl:sequence select="matches($strURI, xat:urisyn.URI())"/>
     </xsl:function>
 
     <xsl:function name="xat:uri.isGlobal" as="xs:boolean">
         <xsl:param name="strURI"/>
-        <xsl:value-of select="matches($strURI, xat:urisyn.globalURI())"/>
+        <xsl:sequence select="matches($strURI, xat:urisyn.globalURI())"/>
     </xsl:function>
 
     <xsl:function name="xat:uri.isURI" as="xs:boolean">
         <xsl:param name="strURI"/>
-        <xsl:value-of select="xat:uri.isLocal($strURI) or xat:uri.isGlobal($strURI)"/>
+        <xsl:sequence select="xat:uri.isLocal($strURI) or xat:uri.isGlobal($strURI)"/>
     </xsl:function>
 
     <xsl:function name="xat:uri.isValid" as="xs:boolean">
         <xsl:param name="strURI"/>
-        <xsl:value-of select="xat:uri.isRelative($strURI) or xat:uri.isURI($strURI)"/>
+        <xsl:sequence select="xat:uri.isRelative($strURI) or xat:uri.isURI($strURI)"/>
     </xsl:function>
 
 </xsl:stylesheet>

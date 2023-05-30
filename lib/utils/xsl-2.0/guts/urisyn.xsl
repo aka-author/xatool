@@ -333,9 +333,7 @@
     <xsl:function name="xat:urisyn.pathGroup">
         <xsl:call-template name="xat.regexp.sequenceGroup">
             <xsl:with-param name="seqItems">
-                <!--
-                <xsl:text>\/</xsl:text>
-                -->
+                <!-- Escaping / is not relevant for XSLT -->
                 <xsl:text>/</xsl:text>
                 <xsl:value-of select="xat:urisyn.path()"/>
             </xsl:with-param>
@@ -351,35 +349,19 @@
 
     <!-- c:/htdocs/zoo/animals/wombat.phtml?page=4&size=15#food -->
     <xsl:function name="xat:urisyn.fullPath">
-
         <xsl:call-template name="xat.regexp.sequenceGroup">
             <xsl:with-param name="seqItems">
                 <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.drive(), '?')"/>
                 <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.pathGroup(), '?')"/>
             </xsl:with-param>
         </xsl:call-template>
-        <!--
-                <xsl:call-template name="xat.regexp.choiseGroup">
-            <xsl:with-param name="seqChoises">               
-                <xsl:call-template name="xat.regexp.sequenceGroup">
-                    <xsl:with-param name="seqItems">
-                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.drive(), '?')"/>
-                        <xsl:value-of select="xat:urisyn.pathGroup()"/>
-                    </xsl:with-param>
-                </xsl:call-template>
-                <xsl:value-of select="xat:urisyn.drive()"/>
-            </xsl:with-param>
-        </xsl:call-template>
-        -->
     </xsl:function>
 
     <!-- /c:/htdocs/zoo/animals/wombat.phtml?page=4&size=15#food -->
     <xsl:function name="xat:urisyn.fullPathGroup">
         <xsl:call-template name="xat.regexp.sequenceGroup">
             <xsl:with-param name="seqItems">
-                <!--
-                <xsl:text>\/</xsl:text>
-                -->
+                <!-- Escaping / is not relevant for XSLT -->
                 <xsl:text>/</xsl:text>
                 <xsl:value-of select="xat:urisyn.fullPath()"/>
             </xsl:with-param>
@@ -391,12 +373,16 @@
 
     <!-- file:/c:/htdocs/zoo/animals/wombat.phtml?page=4&size=15#food -->
     <xsl:function name="xat:urisyn.URI">
-        <xsl:call-template name="xat.regexp.sequenceGroup">
-            <xsl:with-param name="seqItems">
-                <xsl:value-of select="xat:urisyn.fullProtocol()"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.addressGroup(), '?')"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.driveGroup(), '?')"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.pathGroup(), '?')"/>
+        <xsl:call-template name="xat.regexp.wholeString">
+            <xsl:with-param name="strItem">
+                <xsl:call-template name="xat.regexp.sequenceGroup">
+                    <xsl:with-param name="seqItems">
+                        <xsl:value-of select="xat:urisyn.fullProtocol()"/>
+                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.addressGroup(), '?')"/>
+                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.driveGroup(), '?')"/>
+                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.pathGroup(), '?')"/>
+                    </xsl:with-param>
+                </xsl:call-template>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:function>
@@ -406,13 +392,19 @@
 
     <!-- http://daRkLoRd:querty@www.example.com:80/zoo/animals/wombat.py?page=5&size=15#food -->
     <xsl:function name="xat:urisyn.globalURI">
-        <xsl:call-template name="xat.regexp.sequenceGroup">
-            <xsl:with-param name="seqItems">
-                <xsl:value-of select="xat:urisyn.fullProtocol()"/>
-                <xsl:value-of select="xat:urisyn.addressGroup()"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.filePathGroup(), '?')"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.paramsGroup(), '?')"/>
-                <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.anchorGroup(), '?')"/>
+        <xsl:call-template name="xat.regexp.wholeString">
+            <xsl:with-param name="strItem">
+                <xsl:call-template name="xat.regexp.sequenceGroup">
+                    <xsl:with-param name="seqItems">
+                        <xsl:value-of select="xat:urisyn.fullProtocol()"/>
+                        <xsl:value-of select="xat:urisyn.addressGroup()"/>
+                        <xsl:value-of
+                            select="xat:regexp.multiGroup(xat:urisyn.filePathGroup(), '?')"/>
+                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.paramsGroup(), '?')"/>
+                        <xsl:value-of select="xat:regexp.multiGroup(xat:urisyn.anchorGroup(), '?')"
+                        />
+                    </xsl:with-param>
+                </xsl:call-template>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:function>

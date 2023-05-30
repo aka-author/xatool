@@ -253,5 +253,10 @@
         <xsl:param name="strItem"/>
         <xsl:value-of select="concat('^', $strItem, '$')"/>
     </xsl:function>
+    
+    <xsl:template name="xat.regexp.wholeString">
+        <xsl:param name="strItem"/>
+        <xsl:value-of select="xat:regexp.wholeString($strItem)"/>
+    </xsl:template>
 
 </xsl:stylesheet>
