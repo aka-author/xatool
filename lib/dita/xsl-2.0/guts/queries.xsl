@@ -264,7 +264,7 @@
     <xsl:template match="*" mode="xat.dita.plainTextDocTitle"/>
 
     <xsl:template match="map" mode="xat.dita.plainTextDocTitle">
-        <xsl:value-of select="title"/>
+        <xsl:value-of select="(//title)[1]"/>
     </xsl:template>
 
     <xsl:template match="bookmap" mode="xat.dita.plainTextDocTitle">
