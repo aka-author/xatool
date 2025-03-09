@@ -253,6 +253,23 @@
         <xsl:value-of select="normalize-space(//mainbooktitle)"/>
     </xsl:template>
 
+    <xsl:template match="map" mode="xat.dita.plainTextTitle">
+
+        <xsl:variable name="rawTitle">
+            <xsl:choose>
+                <xsl:when test="title">
+                    <xsl:value-of select="title"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="normalize-space(./*[1]/title)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:value-of select="normalize-space($rawTitle)"/>
+
+    </xsl:template>
+
     <xsl:function name="xat:dita.plainTextTitle">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.plainTextTitle"/>
@@ -288,7 +305,7 @@
     <xsl:template match="*[xat:dita.isStructNode(.)]" mode="xat.dita.fileUri">
         <xsl:choose>
             <xsl:when test="not(xat:uri.isURI(@xtrf))">
-                <xsl:value-of select="xat:path.2uri(@xtrf, xat:path.os(@xtrf))"/>        
+                <xsl:value-of select="xat:path.2uri(@xtrf, xat:path.os(@xtrf))"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="@xtrf"/>
@@ -307,7 +324,7 @@
     -->
 
     <!-- Retrieving a value of any othermeta nested to a topic or a map -->
-    
+
     <xsl:template match="*" mode="xat.dita.othermeta">
         <xsl:param name="othermetaName"/>
     </xsl:template>
@@ -333,15 +350,15 @@
 
 
     <!-- Retrieving a value of any othermeta nested directly to a topic or a map -->
-    
+
     <!-- 
         The dita2pdf2 preprocessor injects maps' othermetas into a topics' prologs
     -->
-    
+
     <xsl:template match="*" mode="xat.dita.directOthermeta">
         <xsl:param name="othermetaName"/>
     </xsl:template>
-    
+
     <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.directOthermeta">
         <xsl:param name="othermetaName"/>
         <xsl:value-of
