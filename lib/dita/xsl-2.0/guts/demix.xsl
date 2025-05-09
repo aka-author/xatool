@@ -5,6 +5,10 @@
 
     <!-- <xsl:output indent="yes"/> -->
 
+    <!-- 
+        Detecting block elements 
+    -->
+
     <xsl:template match="*" mode="xat.dita.demix.isBlock" as="xs:boolean">
         <xsl:value-of select="false()"/>
     </xsl:template>
@@ -39,11 +43,70 @@
         <xsl:value-of select="true()"/>
     </xsl:template>
 
+    <xsl:template match="*[contains(@class, ' topic/codeblock ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/equation-block ')]"
+        mode="xat.dita.demix.isBlock" as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/equation-figure ')]"
+        mode="xat.dita.demix.isBlock" as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/hazardstatement ')]"
+        mode="xat.dita.demix.isBlock" as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/lines ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/lq ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/msgblock ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/pre ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/simpletable ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/screen ')]" mode="xat.dita.demix.isBlock"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
     <xsl:function name="xat:dita.demix.isBlock" as="xs:boolean">
         <xsl:param name="node"/>
         <xsl:apply-templates select="$node" mode="xat.dita.demix.isBlock"/>
     </xsl:function>
 
+
+    <!-- 
+        Detecting inline nodes
+    -->
 
     <xsl:template match="node()[name() = '']" mode="xat.dita.demix.isInline" as="xs:boolean">
         <xsl:value-of select="true()"/>
@@ -65,6 +128,10 @@
     </xsl:function>
 
 
+    <!-- 
+        Detecting containers that may have mixed content
+    -->
+
     <xsl:template match="*" mode="xat.dita.demix.isContainer" as="xs:boolean">
         <xsl:value-of select="false()"/>
     </xsl:template>
@@ -84,16 +151,35 @@
         <xsl:value-of select="true()"/>
     </xsl:template>
 
+    <xsl:template match="*[contains(@class, ' topic/stentry ')]" mode="xat.dita.demix.isContainer"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
     <xsl:template match="*[contains(@class, ' topic/note ')]" mode="xat.dita.demix.isContainer"
         as="xs:boolean">
         <xsl:value-of select="true()"/>
     </xsl:template>
 
+    <xsl:template match="*[contains(@class, ' topic/section ')]" mode="xat.dita.demix.isContainer"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/itemgroup ')]" mode="xat.dita.demix.isContainer"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.demix.isContainer"
+        as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
+    
     <xsl:function name="xat:dita.demix.isContainer" as="xs:boolean">
         <xsl:param name="node"/>
         <xsl:apply-templates select="$node" mode="xat.dita.demix.isContainer"/>
     </xsl:function>
-
 
     <xsl:function name="xat:dita.demix.isMixed" as="xs:boolean">
 
@@ -105,6 +191,10 @@
     </xsl:function>
 
 
+    <!-- 
+        Detecting and organizing inline nodes
+    -->
+    
     <xsl:function name="xat:dita.demix.followingBlockId">
 
         <xsl:param name="node"/>
@@ -201,6 +291,10 @@
     </xsl:template>
 
 
+    <!-- 
+        Getting rid of mixed content
+    -->
+    
     <xsl:template match="*[xat:dita.demix.isContainer(.) and xat:dita.demix.isMixed(.)]"
         mode="xat.dita.demix">
 
