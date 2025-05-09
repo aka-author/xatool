@@ -170,12 +170,12 @@
         as="xs:boolean">
         <xsl:value-of select="true()"/>
     </xsl:template>
-    
+
     <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.demix.isContainer"
         as="xs:boolean">
         <xsl:value-of select="true()"/>
     </xsl:template>
-    
+
     <xsl:function name="xat:dita.demix.isContainer" as="xs:boolean">
         <xsl:param name="node"/>
         <xsl:apply-templates select="$node" mode="xat.dita.demix.isContainer"/>
@@ -194,7 +194,7 @@
     <!-- 
         Detecting and organizing inline nodes
     -->
-    
+
     <xsl:function name="xat:dita.demix.followingBlockId">
 
         <xsl:param name="node"/>
@@ -294,30 +294,77 @@
     <!-- 
         Getting rid of mixed content
     -->
+
+    <xsl:template match="*" mode="xat.dita.demix.inner">
+        
+        <xsl:for-each select="*[xat:dita.demix.isBlock(.)]">
+            
+            <xsl:if test="xat:dita.demix.hasPrecedingInlines(.)">
+                <xsl:apply-templates select="." mode="xat.dita.demix.precedingInlines"/>
+            </xsl:if>
+            
+            <xsl:apply-templates select="." mode="xat.dita.demix"/>
+            
+            <xsl:if test="position() = last() and xat:dita.demix.hasFollowingInlines(.)">
+                <xsl:apply-templates select="." mode="xat.dita.demix.followingInlines"/>
+            </xsl:if>
+            
+        </xsl:for-each>
+        
+    </xsl:template>
     
+    
+    <xsl:template match="*" mode="xat.dita.demix.isRedundantContainer" as="xs:boolean">
+        <xsl:param name="inner"/>
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+        
+    <xsl:template match="p" mode="xat.dita.demix.isRedundantContainer" as="xs:boolean">
+        
+        <xsl:param name="inner"/>
+        
+        <xsl:choose>
+            <xsl:when test="@outputclass">
+                <xsl:sequence select="false()"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="not(exists($inner/*[not(xat:dita.demix.isBlock(.))]))"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+    </xsl:template>
+    
+    <xsl:function name="xat:dita.demix.isRedundantContainer" as="xs:boolean">
+        
+        <xsl:param name="container"/>
+        <xsl:param name="inner"/>
+        
+        <xsl:apply-templates select="$container" mode="xat.dita.demix.isRedundantContainer">
+            <xsl:with-param name="inner" select="$inner"/>
+        </xsl:apply-templates>
+        
+    </xsl:function>
+    
+
     <xsl:template match="*[xat:dita.demix.isContainer(.) and xat:dita.demix.isMixed(.)]"
         mode="xat.dita.demix">
 
-        <xsl:copy>
+        <xsl:variable name="inner">
+            <xsl:apply-templates select="." mode="xat.dita.demix.inner"/>
+        </xsl:variable>
 
-            <xsl:copy-of select="@*"/>
-
-            <xsl:for-each select="*[xat:dita.demix.isBlock(.)]">
-
-                <xsl:if test="xat:dita.demix.hasPrecedingInlines(.)">
-                    <xsl:apply-templates select="." mode="xat.dita.demix.precedingInlines"/>
-                </xsl:if>
-
-                <xsl:apply-templates select="." mode="xat.dita.demix"/>
-
-                <xsl:if test="position() = last() and xat:dita.demix.hasFollowingInlines(.)">
-                    <xsl:apply-templates select="." mode="xat.dita.demix.followingInlines"/>
-                </xsl:if>
-
-            </xsl:for-each>
-
-        </xsl:copy>
-
+        <xsl:choose>
+            <xsl:when test="xat:dita.demix.isRedundantContainer(., $inner)">
+                <xsl:copy-of select="$inner"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:copy-of select="@*"/>
+                    <xsl:copy-of select="$inner"/>
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+       
     </xsl:template>
 
 
@@ -329,6 +376,29 @@
         </xsl:copy>
 
     </xsl:template>
+
+
+    <!-- 
+        Disassembling redundant blocks    
+    -->
+
+    <xsl:template match="*[xat:dita.demix.isContainer(.) and not(*[not(xat:dita.demix.isBlock(.))])]"
+        mode="xat.dita.demix.simplify">
+
+        <xsl:apply-templates select="*" mode="xat.dita.demix.simplify"/>
+
+    </xsl:template>
+
+
+    <xsl:template match="@* | node()" mode="xat.dita.demix.simplify">
+
+        <xsl:copy>
+            <xsl:apply-templates select="@* | node()" mode="xat.dita.demix.simplify"/>
+        </xsl:copy>
+
+    </xsl:template>
+
+
 
 
     <!--
