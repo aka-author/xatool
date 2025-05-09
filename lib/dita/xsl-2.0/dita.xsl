@@ -5,5 +5,6 @@
     version="2.0">
     
     <xsl:import href="guts/queries.xsl"/>
+    <xsl:import href="guts/demix.xsl"/>
     
 </xsl:stylesheet>
