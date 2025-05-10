@@ -3,9 +3,9 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
     exclude-result-prefixes="xat xs" version="2.0">
 
-    <xsl:output indent="yes"/>
+    <!-- <xsl:output indent="yes"/> -->
 
-    <!-- <xsl:import href="queries.xsl"/> -->
+    <xsl:import href="queries.xsl"/>
 
 
     <!-- 
