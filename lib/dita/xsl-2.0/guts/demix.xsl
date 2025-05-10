@@ -3,99 +3,17 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xat="http://itsurim.com/xatool"
     exclude-result-prefixes="xat xs" version="2.0">
 
-    <!-- <xsl:output indent="yes"/> -->
+    <xsl:output indent="yes"/>
+
+    <!-- <xsl:import href="queries.xsl"/> -->
+
 
     <!-- 
-        Detecting block elements 
+        Detecting blocks for demixing purposes
     -->
 
-    <xsl:template match="*" mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="false()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/p ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/ol ') and not(contains(@class, 'task/'))]"
-        mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/ul ') and not(contains(@class, 'task/'))]"
-        mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/fig ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/table ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/note ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/codeblock ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/equation-block ')]"
-        mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/equation-figure ')]"
-        mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/hazardstatement ')]"
-        mode="xat.dita.demix.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/lines ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/lq ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/msgblock ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/pre ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/simpletable ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/screen ')]" mode="xat.dita.demix.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
+    <xsl:template match="node()" mode="xat.dita.demix.isBlock" as="xs:boolean">
+        <xsl:value-of select="xat:dita.isBlock(.)"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.demix.isBlock" as="xs:boolean">
@@ -105,21 +23,11 @@
 
 
     <!-- 
-        Detecting inline nodes
+        Detecting inline elements for demixing purposes
     -->
-
-    <xsl:template match="node()[name() = '']" mode="xat.dita.demix.isInline" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[xat:dita.demix.isBlock(.)]" mode="xat.dita.demix.isInline"
-        as="xs:boolean">
-        <xsl:value-of select="false()"/>
-    </xsl:template>
-
-    <xsl:template match="*[not(xat:dita.demix.isBlock(.))]" mode="xat.dita.demix.isInline"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
+   
+    <xsl:template match="node()" mode="xat.dita.demix.isInline" as="xs:boolean">
+        <xsl:value-of select="xat:dita.isInline(.)"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.demix.isInline" as="xs:boolean">
@@ -181,12 +89,22 @@
         <xsl:apply-templates select="$node" mode="xat.dita.demix.isContainer"/>
     </xsl:function>
 
+
+    <xsl:template match="node()[name() = '']" mode="xat.dita.demix.isMixed" as="xs:boolean">
+        <xsl:value-of select="false()"/>
+    </xsl:template>
+
+    <xsl:template match="*" mode="xat.dita.demix.isMixed" as="xs:boolean">
+        <xsl:sequence
+            select="exists(*[xat:dita.demix.isBlock(.)]) and exists(node()[xat:dita.demix.isInline(.)])"
+        />
+    </xsl:template>
+
     <xsl:function name="xat:dita.demix.isMixed" as="xs:boolean">
 
         <xsl:param name="element"/>
 
-        <xsl:sequence
-            select="exists($element/*[xat:dita.demix.isBlock(.)]) and exists($element/node()[xat:dita.demix.isInline(.)])"/>
+        <xsl:apply-templates select="$element" mode="xat.dita.demix.isMixed"/>
 
     </xsl:function>
 
@@ -222,7 +140,7 @@
         <xsl:param name="node"/>
 
         <xsl:value-of
-            select="generate-id(($node/preceding-sibling::*[xat:dita.demix.isBlock(.)])[1])"/>
+            select="generate-id(($node/preceding-sibling::*[xat:dita.demix.isBlock(.)])[last()])"/>
 
     </xsl:function>
 
@@ -232,10 +150,11 @@
         <xsl:param name="block"/>
 
         <xsl:variable name="bid" select="generate-id($block)"/>
-
+        
         <xsl:sequence
             select="exists($block/following-sibling::node()[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $bid and not(name() = '' and normalize-space(.) = '')])"/>
-
+       
+        
     </xsl:function>
 
 
@@ -254,7 +173,7 @@
                 <xsl:otherwise>
                     <xsl:variable name="rawText">
                         <xsl:value-of
-                            select="preceding-sibling::node()[xat:dita.demix.followingBlockId(.) = $cid]"
+                            select="preceding-sibling::node()[xat:dita.demix.isInline(.) and xat:dita.demix.followingBlockId(.) = $cid]"
                         />
                     </xsl:variable>
                     <xsl:value-of select="normalize-space($rawText)"/>
@@ -269,10 +188,10 @@
 
         <xsl:variable name="cid" select="generate-id(.)"/>
 
-        <foreign class="- topic/p xatool/demixed">
+        <foreign class="- topic/p xatool/demixed ">
             <xsl:choose>
                 <xsl:when
-                    test="following-sibling::node()[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $cid]">
+                    test="following-sibling::*[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $cid]">
                     <xsl:copy-of
                         select="following-sibling::node()[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $cid]"
                     />
@@ -280,7 +199,7 @@
                 <xsl:otherwise>
                     <xsl:variable name="rawText">
                         <xsl:value-of
-                            select="following-sibling::node()[xat:dita.demix.precedingBlockId(.) = $cid]"
+                            select="following-sibling::node()[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $cid]"
                         />
                     </xsl:variable>
                     <xsl:value-of select="normalize-space($rawText)"/>
@@ -296,33 +215,34 @@
     -->
 
     <xsl:template match="*" mode="xat.dita.demix.inner">
-        
+
         <xsl:for-each select="*[xat:dita.demix.isBlock(.)]">
-            
+
             <xsl:if test="xat:dita.demix.hasPrecedingInlines(.)">
                 <xsl:apply-templates select="." mode="xat.dita.demix.precedingInlines"/>
             </xsl:if>
-            
+
             <xsl:apply-templates select="." mode="xat.dita.demix"/>
             
-            <xsl:if test="position() = last() and xat:dita.demix.hasFollowingInlines(.)">
-                <xsl:apply-templates select="." mode="xat.dita.demix.followingInlines"/>
+            <xsl:if
+                test="not(exists(following-sibling::*[xat:dita.demix.isBlock(.)])) and xat:dita.demix.hasFollowingInlines(.)">
+                <xsl:apply-templates select="." mode="xat.dita.demix.followingInlines"/>        
             </xsl:if>
-            
+
         </xsl:for-each>
-        
+
     </xsl:template>
-    
-    
+
+
     <xsl:template match="*" mode="xat.dita.demix.isRedundantContainer" as="xs:boolean">
         <xsl:param name="inner"/>
         <xsl:sequence select="false()"/>
     </xsl:template>
-        
+
     <xsl:template match="p" mode="xat.dita.demix.isRedundantContainer" as="xs:boolean">
-        
+
         <xsl:param name="inner"/>
-        
+
         <xsl:choose>
             <xsl:when test="@outputclass">
                 <xsl:sequence select="false()"/>
@@ -331,20 +251,20 @@
                 <xsl:value-of select="not(exists($inner/*[not(xat:dita.demix.isBlock(.))]))"/>
             </xsl:otherwise>
         </xsl:choose>
-        
+
     </xsl:template>
-    
+
     <xsl:function name="xat:dita.demix.isRedundantContainer" as="xs:boolean">
-        
+
         <xsl:param name="container"/>
         <xsl:param name="inner"/>
-        
+
         <xsl:apply-templates select="$container" mode="xat.dita.demix.isRedundantContainer">
             <xsl:with-param name="inner" select="$inner"/>
         </xsl:apply-templates>
-        
+
     </xsl:function>
-    
+
 
     <xsl:template match="*[xat:dita.demix.isContainer(.) and xat:dita.demix.isMixed(.)]"
         mode="xat.dita.demix">
@@ -364,7 +284,7 @@
                 </xsl:copy>
             </xsl:otherwise>
         </xsl:choose>
-       
+
     </xsl:template>
 
 
@@ -376,30 +296,6 @@
         </xsl:copy>
 
     </xsl:template>
-
-
-    <!-- 
-        Disassembling redundant blocks    
-    -->
-
-    <xsl:template match="*[xat:dita.demix.isContainer(.) and not(*[not(xat:dita.demix.isBlock(.))])]"
-        mode="xat.dita.demix.simplify">
-
-        <xsl:apply-templates select="*" mode="xat.dita.demix.simplify"/>
-
-    </xsl:template>
-
-
-    <xsl:template match="@* | node()" mode="xat.dita.demix.simplify">
-
-        <xsl:copy>
-            <xsl:apply-templates select="@* | node()" mode="xat.dita.demix.simplify"/>
-        </xsl:copy>
-
-    </xsl:template>
-
-
-
 
     <!--
     <xsl:template match="/">

@@ -4,6 +4,7 @@
     exclude-result-prefixes="xat xs" version="2.0">
 
     <xsl:import href="../../../utils/xsl-2.0/pathuri.xsl"/>
+    <xsl:import href="classify.xsl"/>
 
 
     <!-- 
@@ -111,38 +112,6 @@
     </xsl:function>
 
 
-    <!-- Detecting maps -->
-
-    <xsl:template match="*" mode="xat.dita.isMap" as="xs:boolean">
-        <xsl:sequence select="false()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, 'map/map')]" mode="xat.dita.isMap" as="xs:boolean">
-        <xsl:sequence select="true()"/>
-    </xsl:template>
-
-    <xsl:function name="xat:dita.isMap" as="xs:boolean">
-        <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.dita.isMap"/>
-    </xsl:function>
-
-
-    <!-- Detecting topics -->
-
-    <xsl:template match="*" mode="xat.dita.isTopic" as="xs:boolean">
-        <xsl:sequence select="false()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, 'topic/topic')]" mode="xat.dita.isTopic" as="xs:boolean">
-        <xsl:sequence select="true()"/>
-    </xsl:template>
-
-    <xsl:function name="xat:dita.isTopic" as="xs:boolean">
-        <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.dita.isTopic"/>
-    </xsl:function>
-
-
     <!-- Detecting terminal topics -->
 
     <xsl:template match="*" mode="xat.dita.isTerminalTopic" as="xs:boolean">
@@ -192,22 +161,6 @@
     <xsl:function name="xat:dita.isStructNode" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isStructNode"/>
-    </xsl:function>
-
-
-    <!-- Detecting body elements -->
-
-    <xsl:template match="*" mode="xat.dita.isBody" as="xs:boolean">
-        <xsl:sequence select="false()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, 'topic/body')]" mode="xat.dita.isBody" as="xs:boolean">
-        <xsl:sequence select="true()"/>
-    </xsl:template>
-
-    <xsl:function name="xat:dita.isBody" as="xs:boolean">
-        <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.dita.isBody"/>
     </xsl:function>
 
 
