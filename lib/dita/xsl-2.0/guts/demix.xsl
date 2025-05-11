@@ -162,7 +162,7 @@
 
         <xsl:variable name="cid" select="generate-id(.)"/>
 
-        <foreign class="- topic/p xatool/demixed ">
+        <foreign class="- xatool/demixed ">
             <xsl:choose>
                 <xsl:when
                     test="preceding-sibling::*[xat:dita.demix.isInline(.) and xat:dita.demix.followingBlockId(.) = $cid]">
@@ -188,7 +188,7 @@
 
         <xsl:variable name="cid" select="generate-id(.)"/>
 
-        <foreign class="- topic/p xatool/demixed ">
+        <foreign class="- xatool/demixed ">
             <xsl:choose>
                 <xsl:when
                     test="following-sibling::*[xat:dita.demix.isInline(.) and xat:dita.demix.precedingBlockId(.) = $cid]">

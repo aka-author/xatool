@@ -7,158 +7,197 @@
     <!-- 
         Detecting block elements 
     -->
-
+    
+    <!-- default -->
+    
     <xsl:template match="node()" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/codeblock ')]" mode="xat.dita.isBlock"
+    
+    <!-- base/dtd/topic.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/bodydiv ')]" mode="xat.dita.isBlock"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/equation-block ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/equation-figure ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/fig ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/hazardstatement ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/lines ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/lq ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/msgblock ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/note ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/ol ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/p ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/pre ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/screen ')]" mode="xat.dita.isBlock"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
+    
     <xsl:template match="*[contains(@class, ' topic/section ')]" mode="xat.dita.isBlock"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/simpletable ')]" mode="xat.dita.isBlock"
+    
+    <xsl:template match="*[contains(@class, ' topic/sectiondiv ')]" mode="xat.dita.isBlock"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/table ')]" mode="xat.dita.isBlock"
+    
+    <!-- base/dtd/common-elements.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/data ')]" mode="xat.dita.isBlock"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/ul ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+    
+    <xsl:template match="*[contains(@class, ' topic/div ')]" mode="xat.dita.isBlock" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/fig ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/figgroup ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/itemgroup ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/lines ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' topic/linkpool ')]" mode="xat.dita.isBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/lq ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/note ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/ol ')]" mode="xat.dita.isBlock" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/p ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/pre ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/simpletable ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/ul ')]" mode="xat.dita.isBlock" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <!-- base/dtd/tblDecl.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/table ')]" mode="xat.dita.isBlock"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <!-- func. -->
 
     <xsl:function name="xat:dita.isBlock" as="xs:boolean">
         <xsl:param name="node"/>
         <xsl:apply-templates select="$node" mode="xat.dita.isBlock"/>
     </xsl:function>
 
+    
+    <!-- 
+        Detecting lists 
+    -->
+    
+    <xsl:template match="*" mode="xat.dita.isListItem" as="xs:boolean">
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/li ')]" mode="xat.dita.isListItem" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:function name="xat:dita.isListItem" as="xs:boolean">
+        <xsl:param name="node"/>
+        <xsl:apply-templates select="$node" mode="xat.dita.isListItem"/>
+    </xsl:function>
+    
+    <xsl:template match="*" mode="xat.dita.isList" as="xs:boolean">
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/ol ')]" mode="xat.dita.isList" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/ul ')]" mode="xat.dita.isList" as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:function name="xat:dita.isList" as="xs:boolean">
+        <xsl:param name="node"/>
+        <xsl:apply-templates select="$node" mode="xat.dita.isList"/>
+    </xsl:function>
 
     <!-- 
         Detecting table components
     -->
 
-    <!-- Generic -->
+    <!-- default -->
 
     <xsl:template match="*" mode="xat.dita.isTableComponent" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+    
+    <!-- base/dtd/common-elements.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/stentry ')]" mode="xat.dita.isTableComponent"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/sthead ')]" mode="xat.dita.isTableComponent"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/strow ')]" mode="xat.dita.isTableComponent"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' topic/tgroup ')]" mode="xat:dita.isTableComponent"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
+    <!-- base/dtd/tblDecl.mod -->
 
     <xsl:template match="*[contains(@class, ' topic/thead ')]" mode="xat.dita.isTableComponent"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/tfoot ')]" mode="xat.dita.isTableComponent"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/row ')]" mode="xat.dita.isTableComponent"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/entry ')]" mode="xat.dita.isTableComponent"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' topic/stentry ')]" mode="xat.dita.isTableComponent"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/sthead ')]" mode="xat.dita.isTableComponent"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/strow ')]" mode="xat.dita.isTableComponent"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
-    <xsl:template match="*[contains(@class, ' topic/stentry ')]" mode="xat.dita.isTableComponent"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
+    <!-- func. -->
 
     <xsl:function name="xat:dita.isTableComponent" as="xs:boolean">
         <xsl:param name="element"/>
@@ -167,20 +206,28 @@
 
     <!-- Entry -->
 
+    <!-- default -->
+    
     <xsl:template match="*" mode="xat.dita.isTableEntry" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' topic/entry ')]" mode="xat.dita.isTableEntry"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
+    <!-- base/dtd/common-elements.mod -->
+    
     <xsl:template match="*[contains(@class, ' topic/stentry ')]" mode="xat.dita.isTableEntry"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <!-- base/dtd/tblDecl.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/entry ')]" mode="xat.dita.isTableEntry"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
+    <!-- func. -->
+    
     <xsl:function name="xat:dita.isTableEntry" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isTableEntry"/>
@@ -188,20 +235,28 @@
 
     <!-- Row -->
 
+    <!-- default -->
+    
     <xsl:template match="*" mode="xat.dita.isTableRow" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' topic/row ')]" mode="xat.dita.isTableRow"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
+    <!-- base/dtd/common-elements.mod -->
+    
     <xsl:template match="*[contains(@class, ' topic/strow ')]" mode="xat.dita.isTableRow"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <!-- base/dtd/tblDecl.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/row ')]" mode="xat.dita.isTableRow"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
+    <!-- func. -->
+    
     <xsl:function name="xat:dita.isTableRow" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isTableRow"/>
@@ -209,20 +264,28 @@
 
     <!-- Table -->
 
+    <!-- default -->
+    
     <xsl:template match="*" mode="xat.dita.isTable" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' topic/tgroup ')]" mode="xat.dita.isTable"
-        as="xs:boolean">
-        <xsl:value-of select="true()"/>
-    </xsl:template>
-
+    <!-- base/dtd/common-elements.mod -->
+    
     <xsl:template match="*[contains(@class, ' topic/simpletable ')]" mode="xat.dita.isTable"
         as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
+    </xsl:template>
+    
+    <!-- base/dtd/tblDecl.mod -->
+    
+    <xsl:template match="*[contains(@class, ' topic/tgroup ')]" mode="xat.dita.isTable"
+        as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
+    <!-- func. -->
+    
     <xsl:function name="xat:dita.isTable" as="xs:boolean">
         <xsl:param name="element"/>
         <xsl:apply-templates select="$element" mode="xat.dita.isTable"/>
@@ -234,21 +297,21 @@
     -->
 
     <xsl:template match="comment()" mode="xat.dita.isInline" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
     <xsl:template match="text()" mode="xat.dita.isInline" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template match="*" mode="xat.dita.isInline" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template
-        match="*[xat:dita.isMap(.) or xat:dita.isTopic(.) or xat:dita.isTopicComponent(.) or xat:dita.isBlock(.) or xat:dita.isTableComponent(.)]"
+        match="*[xat:dita.isMap(.) or xat:dita.isTopic(.) or xat:dita.isTopicComponent(.) or xat:dita.isBlock(.) or xat:dita.isListItem(.) or xat:dita.isTable(.) or xat:dita.isTableComponent(.)]"
         mode="xat.dita.isInline" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.isInline" as="xs:boolean">
@@ -262,12 +325,12 @@
     -->
 
     <xsl:template match="*" mode="xat.dita.isTopicTitle" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTopic(.)]/*[contains(@class, ' topic/title ')]"
         mode="xat.dita.isTopicTitle" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.isTopicTitle" as="xs:boolean">
@@ -299,12 +362,12 @@
     -->
 
     <xsl:template match="*" mode="xat.dita.isRelatedLinksBlock" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/related-links ')]"
         mode="xat.dita.isRelatedLinksBlock" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.isRelatedLinksBlock" as="xs:boolean">
@@ -318,13 +381,18 @@
     -->
 
     <xsl:template match="*" mode="xat.dita.isTopicComponent" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:sequence select="false()"/>
+    </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/shortdesc ')]"
+        mode="xat.dita.isRelatedLinksBlock" as="xs:boolean">
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:template
         match="*[xat:dita.isTopicTitle(.) or xat:dita.isBody(.) or xat:dita.isRelatedLinksBlock(.)]"
         mode="xat.dita.isTopicComponent" as="xs:boolean">
-        <xsl:value-of select="true()"/>
+        <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.isTopicComponent" as="xs:boolean">
@@ -382,8 +450,16 @@
         <xsl:value-of select="'inline'"/>
     </xsl:template>
 
-    <xsl:template match="*[xat:dita.isBlock(.)]" mode="xat.dita.superclass">
+    <xsl:template match="*[xat:dita.isBlock(.) and not(xat:dita.isList(.)) and not(xat:dita.isTable(.))]" mode="xat.dita.superclass">
         <xsl:value-of select="'block'"/>
+    </xsl:template>
+    
+    <xsl:template match="*[xat:dita.isBlock(.) and xat:dita.isTable(.)]" mode="xat.dita.superclass">
+        <xsl:value-of select="'block table'"/>
+    </xsl:template>
+    
+    <xsl:template match="*[xat:dita.isBlock(.) and xat:dita.isList(.)]" mode="xat.dita.superclass">
+        <xsl:value-of select="'block list'"/>
     </xsl:template>
 
     <xsl:template

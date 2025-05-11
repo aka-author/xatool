@@ -331,5 +331,22 @@
             <xsl:with-param name="othermetaName" select="$othermetaName"/>
         </xsl:apply-templates>
     </xsl:function>
+    
+    
+    <xsl:function name="xat:dita.hasClass" as="xs:boolean">
+        <xsl:param name="element"/>
+        <xsl:param name="strClasses" as="xs:string"/>
+        
+        <!-- Extract the list of classes from @class, skipping the leading - or + and the space -->
+        <xsl:variable name="elementClasses" 
+            select="tokenize(replace($element/@class, '^[\+\-]\s*', ''), '\s+')" as="xs:string*"/>
+        
+        <!-- Tokenize the input string of target classes -->
+        <xsl:variable name="targetClasses" select="tokenize($strClasses, '\s+')" as="xs:string*"/>
+        
+        <!-- Return true if there is at least one class in common -->
+        <xsl:sequence select="some $c in $targetClasses satisfies $c = $elementClasses"/>
+    </xsl:function>
+    
 
 </xsl:stylesheet>
