@@ -94,6 +94,10 @@
     <xsl:template match="*[contains(@class, ' topic/ul ')]" mode="xat.dita.isBlock" as="xs:boolean">
         <xsl:value-of select="true()"/>
     </xsl:template>
+    
+    <xsl:template match="*[contains(@class, ' topic/linkpool ')]" mode="xat.dita.isBlock" as="xs:boolean">
+        <xsl:value-of select="true()"/>
+    </xsl:template>
 
     <xsl:function name="xat:dita.isBlock" as="xs:boolean">
         <xsl:param name="node"/>
@@ -300,7 +304,7 @@
 
     <xsl:template match="*[contains(@class, ' topic/related-links ')]"
         mode="xat.dita.isRelatedLinksBlock" as="xs:boolean">
-        <xsl:value-of select="false()"/>
+        <xsl:value-of select="true()"/>
     </xsl:template>
 
     <xsl:function name="xat:dita.isRelatedLinksBlock" as="xs:boolean">
@@ -385,15 +389,15 @@
     <xsl:template
         match="*[xat:dita.isTableComponent(.) and not(xat:dita.isTableEntry(.) or xat:dita.isTableRow(.))]"
         mode="xat.dita.superclass">
-        <xsl:value-of select="'table_component'"/>
+        <xsl:value-of select="'table__component'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTableEntry(.)]" mode="xat.dita.superclass">
-        <xsl:value-of select="'table_component table_entry'"/>
+        <xsl:value-of select="'table__component table_entry'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTableRow(.)]" mode="xat.dita.superclass">
-        <xsl:value-of select="'table_component table_row'"/>
+        <xsl:value-of select="'table__component table_row'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTable(.)]" mode="xat.dita.superclass">
@@ -401,15 +405,15 @@
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTopicTitle(.)]" mode="xat.dita.superclass">
-        <xsl:value-of select="'topic_component topic_title'"/>
+        <xsl:value-of select="'topic__component'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isBody(.)]" mode="xat.dita.superclass">
-        <xsl:value-of select="'topic_component body'"/>
+        <xsl:value-of select="'topic__component'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isRelatedLinksBlock(.)]" mode="xat.dita.superclass">
-        <xsl:value-of select="'topic_component related_links_block'"/>
+        <xsl:value-of select="'topic__component'"/>
     </xsl:template>
 
     <xsl:template match="*[xat:dita.isTopic(.)]" mode="xat.dita.superclass">
