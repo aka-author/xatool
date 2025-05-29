@@ -5,7 +5,7 @@
 
     <xsl:import href="../../../common/xsl-2.0/common.xsl"/>
 
-    <xsl:template name="xat.html.scriptJs">
+    <xsl:template name="xat:html.scriptJs">
         <xsl:param name="src" select="''"/>
         <xsl:param name="content" select="''"/>
         <xsl:param name="defer" select="''"/>

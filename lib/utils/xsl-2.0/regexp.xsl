@@ -37,7 +37,7 @@
     <!-- Putting this into optional leading and trailin spaces -->
     <xsl:function name="xat:regexp.pad">
         <xsl:param name="strItem"/>
-        <xsl:call-template name="xat.regexp.sequence">
+        <xsl:call-template name="xat:regexp.sequence">
             <xsl:with-param name="seqItems" as="xs:string*">
                 <xsl:value-of select="xat:regexp.multiGroup(xat:regexp.anySpace(), '*')"/>
                 <xsl:value-of select="$strItem"/>
@@ -49,7 +49,7 @@
     <!-- Appending mandatory spaces after an item -->
     <xsl:function name="xat:regexp.padRM">
         <xsl:param name="strItem"/>
-        <xsl:call-template name="xat.regexp.sequenceGroup">
+        <xsl:call-template name="xat:regexp.sequenceGroup">
             <xsl:with-param name="seqItems" as="xs:string*">
                 <xsl:value-of select="$strItem"/>
                 <xsl:text><![CDATA[[\s\t\n]+]]></xsl:text>
@@ -86,7 +86,7 @@
     </xsl:function>
 
     <!-- Assembling a binary operation over multiple polymorphic operands -->
-    <xsl:template name="xat.regexp.multiple">
+    <xsl:template name="xat:regexp.multiple">
         <xsl:param name="seqOperands" as="xs:string*"/>
         <xsl:param name="strOperator"/>
         <xsl:variable name="seqOperandGroups" as="xs:string*">
@@ -103,7 +103,7 @@
         <xsl:param name="strOperand1"/>
         <xsl:param name="strOperand2"/>
         <xsl:param name="strOperator"/>
-        <xsl:call-template name="xat.regexp.multiple">
+        <xsl:call-template name="xat:regexp.multiple">
             <xsl:with-param name="seqOperands" as="xs:string*">
                 <xsl:value-of select="$strOperand1"/>
                 <xsl:value-of select="$strOperand2"/>
@@ -116,7 +116,7 @@
     <xsl:function name="xat:regexp.simpleBinary">
         <xsl:param name="strOperand"/>
         <xsl:param name="strOperator"/>
-        <xsl:call-template name="xat.regexp.multiple">
+        <xsl:call-template name="xat:regexp.multiple">
             <xsl:with-param name="seqOperands" as="xs:string*">
                 <xsl:value-of select="$strOperand"/>
                 <xsl:value-of select="$strOperand"/>
@@ -146,7 +146,7 @@
     </xsl:function>
 
     <!-- Assembling a sequence regexp -->
-    <xsl:template name="xat.regexp.sequence">
+    <xsl:template name="xat:regexp.sequence">
         <xsl:param name="seqItems" as="xs:string*"/>
         <xsl:variable name="tmp">
             <xsl:text>(</xsl:text>
@@ -157,10 +157,10 @@
     </xsl:template>
 
     <!-- Assembling a sequence group regexp -->
-    <xsl:template name="xat.regexp.sequenceGroup">
+    <xsl:template name="xat:regexp.sequenceGroup">
         <xsl:param name="seqItems" as="xs:string*"/>
         <xsl:variable name="tmp">
-            <xsl:call-template name="xat.regexp.sequence">
+            <xsl:call-template name="xat:regexp.sequence">
                 <xsl:with-param name="seqItems" as="xs:string*">
                     <xsl:copy-of select="$seqItems"/>
                 </xsl:with-param>
@@ -170,7 +170,7 @@
     </xsl:template>
 
     <!-- Assembling a choise regexp -->
-    <xsl:template name="xat.regexp.choise">
+    <xsl:template name="xat:regexp.choise">
         <xsl:param name="seqChoises" as="xs:string*"/>
         <xsl:variable name="tmp">
             <xsl:text>(</xsl:text>
@@ -181,10 +181,10 @@
     </xsl:template>
 
     <!-- Assembling a choise group regexp -->
-    <xsl:template name="xat.regexp.choiseGroup">
+    <xsl:template name="xat:regexp.choiseGroup">
         <xsl:param name="seqChoises" as="xs:string*"/>
         <xsl:variable name="tmp">
-            <xsl:call-template name="xat.regexp.choise">
+            <xsl:call-template name="xat:regexp.choise">
                 <xsl:with-param name="seqChoises" as="xs:string*">
                     <xsl:copy-of select="$seqChoises"/>
                 </xsl:with-param>
@@ -201,7 +201,7 @@
         <xsl:param name="strSeparator"/>
 
         <xsl:variable name="strOptionalItem">
-            <xsl:call-template name="xat.regexp.sequence">
+            <xsl:call-template name="xat:regexp.sequence">
                 <xsl:with-param name="seqItems" as="xs:string*">
                     <xsl:value-of select="$strSeparator"/>
                     <xsl:value-of select="$strItem"/>
@@ -211,7 +211,7 @@
 
         <xsl:variable name="strTail" select="xat:regexp.multiGroup($strOptionalItem, '*')"/>
 
-        <xsl:call-template name="xat.regexp.sequence">
+        <xsl:call-template name="xat:regexp.sequence">
             <xsl:with-param name="seqItems" as="xs:string*">
                 <xsl:value-of select="$strItem"/>
                 <xsl:value-of select="$strTail"/>
@@ -227,7 +227,7 @@
 
         <xsl:param name="strSeparator"/>
 
-        <xsl:call-template name="xat.regexp.sequence">
+        <xsl:call-template name="xat:regexp.sequence">
             <xsl:with-param name="seqItems" as="xs:string*">
                 <xsl:value-of select="xat:regexp.list($strItem, $strSeparator)"/>
                 <xsl:value-of select="xat:regexp.multiGroup($strSeparator, '?')"/>
@@ -254,7 +254,7 @@
         <xsl:value-of select="concat('^', $strItem, '$')"/>
     </xsl:function>
     
-    <xsl:template name="xat.regexp.wholeString">
+    <xsl:template name="xat:regexp.wholeString">
         <xsl:param name="strItem"/>
         <xsl:value-of select="xat:regexp.wholeString($strItem)"/>
     </xsl:template>

@@ -17,17 +17,17 @@
         Local utilities
     -->
     
-    <xsl:template match="*" mode="xat.rhist.id">
+    <xsl:template match="*" mode="xat:rhist.id">
         <xsl:value-of select="generate-id()"/>
     </xsl:template>
     
-    <xsl:template match="*[@id]" mode="xat.rhist.id">
+    <xsl:template match="*[@id]" mode="xat:rhist.id">
         <xsl:value-of select="@id"/>
     </xsl:template>
     
     <xsl:function name="xat:rhist.id">
         <xsl:param name="elmSomeItem"/>
-        <xsl:apply-templates select="$elmSomeItem" mode="xat.rhist.id"/>
+        <xsl:apply-templates select="$elmSomeItem" mode="xat:rhist.id"/>
     </xsl:function>
     
 

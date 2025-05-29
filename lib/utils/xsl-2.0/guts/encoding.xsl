@@ -52,7 +52,7 @@
     <!-- Detecting ASCII characters -->
     <xsl:function name="xat:encoding.isASCII" as="xs:boolean">
         <xsl:param name="chrItem"/>
-        <xsl:value-of select="contains(xat:encoding.strASCII(), $chrItem)"/>
+        <xsl:sequence select="contains(xat:encoding.strASCII(), $chrItem)"/>
     </xsl:function>
 
 
@@ -65,46 +65,46 @@
         <xsl:param name="chrA"/>
         <xsl:param name="chrX"/>
         <xsl:param name="chrZ"/>
-        <xsl:value-of select="compare($chrA, $chrX) != 1 and compare($chrX, $chrZ) != 1"/>
+        <xsl:sequence select="compare($chrA, $chrX) != 1 and compare($chrX, $chrZ) != 1"/>
     </xsl:function>
 
     <!-- A Unicode range is undefined by default -->
-    <xsl:template match="*" mode="xat.encoding.range">
+    <xsl:template match="*" mode="xat:encoding.range">
         <xsl:text>Undefined</xsl:text>
     </xsl:template>
 
     <!-- Basic Latin -->
-    <xsl:template match="*[contains(xat:encoding.strASCII(), .)]" mode="xat.encoding.range">
+    <xsl:template match="*[contains(xat:encoding.strASCII(), .)]" mode="xat:encoding.range">
         <xsl:text>Latin</xsl:text>
     </xsl:template>
 
     <!-- C1 Controls and Latin-1 Supplement -->
-    <xsl:template match="*[xat:encoding.match('&#x0080;', ., '&#x00FF;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0080;', ., '&#x00FF;')]" mode="xat:encoding.range">
         <xsl:text>Latin1</xsl:text>
     </xsl:template>
 
     <!-- Latin Extended-A -->
-    <xsl:template match="*[xat:encoding.match('&#x0100;', ., '&#x017F;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0100;', ., '&#x017F;')]" mode="xat:encoding.range">
         <xsl:text>LatinA</xsl:text>
     </xsl:template>
 
     <!-- Latin Extended-B -->
-    <xsl:template match="*[xat:encoding.match('&#x0180;', ., '&#x024F;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0180;', ., '&#x024F;')]" mode="xat:encoding.range">
         <xsl:text>LatinB</xsl:text>
     </xsl:template>
 
     <!-- Greek/Coptic -->
-    <xsl:template match="*[xat:encoding.match('&#x0370;', ., '&#x03FF;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0370;', ., '&#x03FF;')]" mode="xat:encoding.range">
         <xsl:text>Greek</xsl:text>
     </xsl:template>
 
     <!-- Cyrillic -->
-    <xsl:template match="*[xat:encoding.match('&#x0400;', ., '&#x04FF;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0400;', ., '&#x04FF;')]" mode="xat:encoding.range">
         <xsl:text>Cyrillic</xsl:text>
     </xsl:template>
 
     <!-- Hebrew -->
-    <xsl:template match="*[xat:encoding.match('&#x0590;', ., '&#x05FF;')]" mode="xat.encoding.range">
+    <xsl:template match="*[xat:encoding.match('&#x0590;', ., '&#x05FF;')]" mode="xat:encoding.range">
         <xsl:text>Hebrew</xsl:text>
     </xsl:template>
 
@@ -116,7 +116,7 @@
                 <xsl:value-of select="$chrItem"/>
             </char>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlChar/char" mode="xat.encoding.range"/>
+        <xsl:apply-templates select="$xmlChar/char" mode="xat:encoding.range"/>
     </xsl:function>
 
     <!-- Detecting a Unicode range for a string -->

@@ -5,7 +5,7 @@
 
     <xsl:import href="../../../common/xsl-2.0/common.xsl"/>
 
-    <xsl:template name="xat.html.meta">
+    <xsl:template name="xat:html.meta">
         <xsl:param name="name"/>
         <xsl:param name="content" select="''"/>
         <xsl:param name="charset" select="''"/>

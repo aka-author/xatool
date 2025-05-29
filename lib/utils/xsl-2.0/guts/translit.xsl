@@ -26,15 +26,15 @@
     -->
 
     <!-- No transliteration table is provided by default -->
-    <xsl:template match="*" mode="xat.translit.load"/>
+    <xsl:template match="*" mode="xat:translit.load"/>
 
     <!-- Cyrillic to ASCII -->
-    <xsl:template match="*[@source = 'Cyrillic' and @target = 'ASCII']" mode="xat.translit.load">
+    <xsl:template match="*[@source = 'Cyrillic' and @target = 'ASCII']" mode="xat:translit.load">
         <xsl:copy-of select="document('../data/translit/Cyrillic.xml')"/>
     </xsl:template>
 
     <!-- Hebrew to ASCII -->
-    <xsl:template match="*[@source = 'Hebrew' and @target = 'ASCII']" mode="xat.translit.load">
+    <xsl:template match="*[@source = 'Hebrew' and @target = 'ASCII']" mode="xat:translit.load">
         <xsl:copy-of select="document('../data/translit/Hebrew.xml')"/>
     </xsl:template>
 
@@ -46,7 +46,7 @@
             <request source="{$strSource}" target="{$strTarget}"/>
         </xsl:variable>
         <xsl:variable name="xmlTable">
-            <xsl:apply-templates select="$xmlRequest" mode="xat.translit.load"/>
+            <xsl:apply-templates select="$xmlRequest" mode="xat:translit.load"/>
         </xsl:variable>
         <xsl:copy-of select="$xmlTable//alphabet[@source = $strSource and @target = $strTarget]"/>
     </xsl:function>

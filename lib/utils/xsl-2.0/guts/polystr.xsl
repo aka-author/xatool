@@ -25,34 +25,34 @@
         Normalizing strings
     -->
 
-    <xsl:template match="*[@mode = 'hashtag']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'hashtag']" mode="xat:polystr.normalize">
         <xsl:variable name="strNoise">
             <xsl:text><![CDATA[ `~!?@#$%^&*()_+=,.:;[]{}<>'"\/|]]></xsl:text>
         </xsl:variable>
         <xsl:value-of select="normalize-space(upper-case(translate(@string, $strNoise, '')))"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = 'spaceCASE']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'spaceCASE']" mode="xat:polystr.normalize">
         <xsl:value-of select="normalize-space(upper-case(@string))"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = 'spacecase']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'spacecase']" mode="xat:polystr.normalize">
         <xsl:value-of select="normalize-space(lower-case(@string))"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = 'CASE']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'CASE']" mode="xat:polystr.normalize">
         <xsl:value-of select="upper-case(@string)"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = 'case']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'case']" mode="xat:polystr.normalize">
         <xsl:value-of select="lower-case(@string)"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = 'space']" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = 'space']" mode="xat:polystr.normalize">
         <xsl:value-of select="normalize-space(@string)"/>
     </xsl:template>
 
-    <xsl:template match="*[@mode = ('', 'asis')]" mode="xat.polystr.normalize">
+    <xsl:template match="*[@mode = ('', 'asis')]" mode="xat:polystr.normalize">
         <xsl:value-of select="@string"/>
     </xsl:template>
 
@@ -62,7 +62,7 @@
         <xsl:variable name="xmlData">
             <data string="{$strItem}" mode="{$strMode}"/>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlData/data" mode="xat.polystr.normalize"/>
+        <xsl:apply-templates select="$xmlData/data" mode="xat:polystr.normalize"/>
     </xsl:function>
 
 

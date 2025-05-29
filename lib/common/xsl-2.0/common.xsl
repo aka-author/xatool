@@ -3,7 +3,7 @@
     xmlns:xat="http://itsurim.com/xatool" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="xat xs" version="2.0">
 
-    <xsl:template match="*" mode="xat.id">
+    <xsl:template match="*" mode="xat:id">
         <xsl:choose>
             <xsl:when test="@id">
                 <xsl:value-of select="@id"/>
@@ -16,7 +16,7 @@
     
     <xsl:function name="xat:id">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.id"/>
+        <xsl:apply-templates select="$element" mode="xat:id"/>
     </xsl:function>
 
     <xsl:function name="xat:usefulAttr">

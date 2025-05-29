@@ -8,7 +8,7 @@
     <xsl:import href="../../../common/xsl-2.0/common.xsl"/>
     
     
-    <xsl:template name="xat.html.img">
+    <xsl:template name="xat:html.img">
         <xsl:param name="id" select="''"/>
         <xsl:param name="className" select="''"/>
         <xsl:param name="src"/>

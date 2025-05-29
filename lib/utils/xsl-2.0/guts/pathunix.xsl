@@ -25,7 +25,7 @@
         Converting a Unix path to an URI
     -->
     
-    <xsl:template match="*[lower-case(@os) = ('mac', 'linux', 'unix')]" mode="xat.path.2uri">
+    <xsl:template match="*[lower-case(@os) = ('mac', 'linux', 'unix')]" mode="xat:path.2uri">
 
         <xsl:variable name="strPathGroup">
             <xsl:choose>
@@ -47,7 +47,7 @@
         Converting an URI to a Unix path
     -->
     
-    <xsl:template match="*[lower-case(@os) = ('mac', 'linux', 'unix')]" mode="xat.uri.2path">
+    <xsl:template match="*[lower-case(@os) = ('mac', 'linux', 'unix')]" mode="xat:uri.2path">
         <xsl:value-of select="xat:encoding.decodeURI(concat('/', xat:uri.localFile(@uri)))"/>
     </xsl:template>
 

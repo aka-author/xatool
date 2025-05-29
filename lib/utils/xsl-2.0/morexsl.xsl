@@ -20,17 +20,17 @@
 
     <!-- Detecting the @id of an element -->
     
-    <xsl:template match="*" mode="xat.morexsl.getgenId">
+    <xsl:template match="*" mode="xat:morexsl.getgenId">
         <xsl:value-of select="generate-id()"/>
     </xsl:template>
     
-    <xsl:template match="*[@id]" mode="xat.morexsl.getgenId">
+    <xsl:template match="*[@id]" mode="xat:morexsl.getgenId">
         <xsl:value-of select="@id"/>
     </xsl:template>
     
     <xsl:function name="xat:morexsl.id">
         <xsl:param name="elmItem"/>
-        <xsl:apply-templates select="$elmItem" mode="xat.morexsl.getgenId"/>
+        <xsl:apply-templates select="$elmItem" mode="xat:morexsl.getgenId"/>
     </xsl:function>
     
     <!-- Checking an element id-->
@@ -46,14 +46,14 @@
     </xsl:function>
 
     <!-- Creating an @id attribute if does not exist yet -->
-    <xsl:template match="*" mode="xat.morexsl.id">
+    <xsl:template match="*" mode="xat:morexsl.id">
         <xsl:if test="not(@id)">
             <xsl:attribute name="id" select="generate-id()"/>
         </xsl:if>
     </xsl:template>
 
     <!-- Creating an @id attribute using UUID -->
-    <xsl:template match="*" mode="xat.morexsl.UUID">
+    <xsl:template match="*" mode="xat:morexsl.UUID">
         <xsl:if test="not(@id)">
             <xsl:attribute name="id" select="xat:morexsl.UUID()"/>
         </xsl:if>

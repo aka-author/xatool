@@ -106,11 +106,11 @@
             </xsl:if>
 
             <xsl:for-each select="$xmlURI//folder">
-                <xsl:apply-templates select="." mode="xat.uri.serialize"/>
+                <xsl:apply-templates select="." mode="xat:uri.serialize"/>
                 <xsl:text>/</xsl:text>
             </xsl:for-each>
 
-            <xsl:apply-templates select="$xmlURI//file" mode="xat.uri.serialize"/>
+            <xsl:apply-templates select="$xmlURI//file" mode="xat:uri.serialize"/>
 
         </xsl:variable>
 
@@ -138,7 +138,7 @@
     <xsl:function name="xat:uri.filename">
         <xsl:param name="strURI"/>
         <xsl:variable name="xmlURI" select="xat:uriparse.uri($strURI)"/>
-        <xsl:apply-templates select="$xmlURI//file" mode="xat.uri.serialize"/>        
+        <xsl:apply-templates select="$xmlURI//file" mode="xat:uri.serialize"/>        
     </xsl:function>
     
     <!-- wombat -->

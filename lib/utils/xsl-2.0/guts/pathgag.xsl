@@ -26,7 +26,7 @@
     <!-- 
         A path to an URI
     -->
-    <xsl:template match="*" mode="xat.path.2uri">
+    <xsl:template match="*" mode="xat:path.2uri">
         <xsl:value-of select="@path"/>
     </xsl:template>
     
@@ -34,7 +34,7 @@
     <!-- 
         An URI to a path 
     -->
-    <xsl:template match="*" mode="xat.uri.2path">
+    <xsl:template match="*" mode="xat:uri.2path">
         <xsl:value-of select="@uri"/>
     </xsl:template>
           

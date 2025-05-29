@@ -8,21 +8,21 @@
 
     <!-- Serializing names -->
 
-    <xsl:template match="node()[self::text()]" mode="xat.json.propName">
+    <xsl:template match="node()[self::text()]" mode="xat:json.propName">
         <xsl:value-of select="'#'"/>
     </xsl:template>
 
-    <xsl:template match="@*" mode="xat.json.propName">
+    <xsl:template match="@*" mode="xat:json.propName">
         <xsl:value-of select="concat('@', name())"/>
     </xsl:template>
 
-    <xsl:template match="*" mode="xat.json.propName">
+    <xsl:template match="*" mode="xat:json.propName">
         <xsl:value-of select="name()"/>
     </xsl:template>
 
     <xsl:function name="xat:json.propName">
         <xsl:param name="node"/>
-        <xsl:apply-templates select="$node" mode="xat.json.propName"/>
+        <xsl:apply-templates select="$node" mode="xat:json.propName"/>
     </xsl:function>
 
 
@@ -43,25 +43,25 @@
 
     </xsl:function>
 
-    <xsl:template match="text()" mode="xat.json.atomicValueTypeName">
+    <xsl:template match="text()" mode="xat:json.atomicValueTypeName">
         <xsl:text>string</xsl:text>
     </xsl:template>
 
-    <xsl:template match="text()[matches(., '^(true|false)$')]" mode="xat.json.atomicValueTypeName">
+    <xsl:template match="text()[matches(., '^(true|false)$')]" mode="xat:json.atomicValueTypeName">
         <xsl:text>boolean</xsl:text>
     </xsl:template>
 
     <xsl:template match="text()[matches(., '^((\+|-)?)(\d+)((\.\d+)?)$')]"
-        mode="xat.json.atomicValueTypeName">
+        mode="xat:json.atomicValueTypeName">
         <xsl:text>number</xsl:text>
     </xsl:template>
 
     <xsl:function name="xat:json.atomicValueTypeName">
         <xsl:param name="val"/>
-        <xsl:apply-templates select="$val" mode="xat.json.atomicValueTypeName"/>
+        <xsl:apply-templates select="$val" mode="xat:json.atomicValueTypeName"/>
     </xsl:function>
 
-    <xsl:template match="node() | @*" mode="xat.json.atomicValue">
+    <xsl:template match="node() | @*" mode="xat:json.atomicValue">
         <xsl:value-of select="."/>
     </xsl:template>
 
@@ -69,7 +69,7 @@
         <xsl:param name="node"/>
 
         <xsl:variable name="rawVal">
-            <xsl:apply-templates select="$node" mode="xat.json.atomicValue"/>
+            <xsl:apply-templates select="$node" mode="xat:json.atomicValue"/>
         </xsl:variable>
 
         <xsl:variable name="typeName" select="xat:json.atomicValueTypeName($rawVal)"/>
@@ -100,59 +100,59 @@
 
     <!-- Detecting useful nodes -->
 
-    <xsl:template match="node()" mode="xat.json.isUseful" as="xs:boolean">
+    <xsl:template match="node()" mode="xat:json.isUseful" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="node()[self::text()]" mode="xat.json.isUseful" as="xs:boolean">
+    <xsl:template match="node()[self::text()]" mode="xat:json.isUseful" as="xs:boolean">
         <xsl:sequence select="normalize-space(.) != ''"/>
     </xsl:template>
 
-    <xsl:template match="*[name() != ''] | @*" mode="xat.json.isUseful" as="xs:boolean">
+    <xsl:template match="*[name() != ''] | @*" mode="xat:json.isUseful" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
 
     <xsl:function name="xat:json.isUseful" as="xs:boolean">
         <xsl:param name="node"/>
-        <xsl:apply-templates select="$node" mode="xat.json.isUseful"/> 
+        <xsl:apply-templates select="$node" mode="xat:json.isUseful"/> 
     </xsl:function>
 
 
     <!-- Serializing atoms -->
 
-    <xsl:template match="node()" mode="xat.json.isAtom" as="xs:boolean">
+    <xsl:template match="node()" mode="xat:json.isAtom" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="node()[self::text()]" mode="xat.json.isAtom" as="xs:boolean">
+    <xsl:template match="node()[self::text()]" mode="xat:json.isAtom" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
 
-    <xsl:template match="@*" mode="xat.json.isAtom" as="xs:boolean">
+    <xsl:template match="@*" mode="xat:json.isAtom" as="xs:boolean">
         <xsl:sequence select="true()"/>
     </xsl:template>
 
-    <xsl:template match="*[name() != '']" mode="xat.json.isAtom" as="xs:boolean">
+    <xsl:template match="*[name() != '']" mode="xat:json.isAtom" as="xs:boolean">
         <xsl:sequence select="not(exists((* | @*)[xat:json.isUseful(.)]))"/>
     </xsl:template>
 
     <xsl:function name="xat:json.isAtom" as="xs:boolean">
         <xsl:param name="node"/>
-        <xsl:apply-templates select="$node" mode="xat.json.isAtom"/> 
+        <xsl:apply-templates select="$node" mode="xat:json.isAtom"/> 
     </xsl:function>
 
-    <xsl:template match="node() | @*" mode="xat.json.atom">
+    <xsl:template match="node() | @*" mode="xat:json.atom">
         <xsl:value-of select="xat:json.atomicValue(.)"/>
     </xsl:template>
 
 
     <!-- Serializing objects -->
 
-    <xsl:template match="node()[self::text()] | @*" mode="xat.json.asObject" as="xs:boolean">
+    <xsl:template match="node()[self::text()] | @*" mode="xat:json.asObject" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="*" mode="xat.json.asObject" as="xs:boolean">
+    <xsl:template match="*" mode="xat:json.asObject" as="xs:boolean">
 
         <xsl:variable name="childrenNames" as="xs:string*">
             <xsl:copy-of select="(node() | @*)[xat:json.isUseful(.)]/xat:json.propName(.)"/>
@@ -170,14 +170,14 @@
 
     <xsl:function name="xat:json.asObject" as="xs:boolean">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.json.asObject"/> 
+        <xsl:apply-templates select="$element" mode="xat:json.asObject"/> 
     </xsl:function>
 
-    <xsl:template match="node()[self::text()] | @*" mode="xat.json.isObject" as="xs:boolean">
+    <xsl:template match="node()[self::text()] | @*" mode="xat:json.isObject" as="xs:boolean">
         <xsl:sequence select="false()"/>
     </xsl:template>
 
-    <xsl:template match="*" mode="xat.json.isObject" as="xs:boolean">
+    <xsl:template match="*" mode="xat:json.isObject" as="xs:boolean">
         <xsl:choose>
             <xsl:when test="xat:json.asObject(.)">
                 <xsl:variable name="n" select="name()"/>
@@ -191,10 +191,10 @@
 
     <xsl:function name="xat:json.isObject" as="xs:boolean">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.json.isObject"/>
+        <xsl:apply-templates select="$element" mode="xat:json.isObject"/>
     </xsl:function>
 
-    <xsl:template match="*" mode="xat.json.object">
+    <xsl:template match="*" mode="xat:json.object">
 
         <xsl:variable name="props" as="xs:string*">
             <xsl:for-each-group select="(node() | @*)[xat:json.isUseful(.)]"
@@ -212,7 +212,7 @@
 
     <!-- Serializing arrays -->
 
-    <xsl:template match="*" mode="xat.json.isUniform" as="xs:boolean">
+    <xsl:template match="*" mode="xat:json.isUniform" as="xs:boolean">
         <xsl:variable name="childrenNames" as="xs:string*">
             <xsl:copy-of select="node()[xat:json.isUseful(.)]/xat:json.propName(.)"/>
         </xsl:variable>
@@ -227,10 +227,10 @@
 
     <xsl:function name="xat:json.isUniform" as="xs:boolean">
         <xsl:param name="arrayElement"/>
-        <xsl:apply-templates select="$arrayElement" mode="xat.json.isUniform"/>
+        <xsl:apply-templates select="$arrayElement" mode="xat:json.isUniform"/>
     </xsl:function>
 
-    <xsl:template match="*" mode="xat.json.array">
+    <xsl:template match="*" mode="xat:json.array">
 
         <xsl:variable name="elements" as="xs:string*">
             <xsl:for-each select="(node() | @*)[xat:json.isUseful(.)]">
@@ -245,32 +245,32 @@
 
     <!-- Generic transform -->
 
-    <xsl:template match="node() | @*" mode="xat.json.pulp">
+    <xsl:template match="node() | @*" mode="xat:json.pulp">
         <xsl:choose>
             <xsl:when test="xat:json.isAtom(.)">
-                <xsl:apply-templates select="." mode="xat.json.atom"/>
+                <xsl:apply-templates select="." mode="xat:json.atom"/>
             </xsl:when>
             <xsl:when test="xat:json.isObject(.)">
-                <xsl:apply-templates select="." mode="xat.json.object"/>
+                <xsl:apply-templates select="." mode="xat:json.object"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates select="." mode="xat.json.array"/>
+                <xsl:apply-templates select="." mode="xat:json.array"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
     <xsl:function name="xat:json.pulp">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.json.pulp"/>
+        <xsl:apply-templates select="$element" mode="xat:json.pulp"/>
     </xsl:function>
 
-    <xsl:template match="*" mode="xat.json">
+    <xsl:template match="*" mode="xat:json">
         <xsl:value-of select="xat:json.monome(xat:json.propName(.), xat:json.pulp(.))"/>
     </xsl:template>
 
     <xsl:function name="xat:json">
         <xsl:param name="element"/>
-        <xsl:apply-templates select="$element" mode="xat.json"/>
+        <xsl:apply-templates select="$element" mode="xat:json"/>
     </xsl:function>
     
     <xsl:function name="xat:json.var">

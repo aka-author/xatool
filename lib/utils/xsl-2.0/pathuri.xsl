@@ -64,7 +64,7 @@
         <xsl:variable name="xmlData">
             <data os="{$strSourceOS}" path="{$strPath}"/>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlData/data" mode="xat.path.2uri"/>
+        <xsl:apply-templates select="$xmlData/data" mode="xat:path.2uri"/>
     </xsl:function>
         
     <!-- An URI to a path -->
@@ -74,7 +74,7 @@
         <xsl:variable name="xmlData">
             <data os="{$strTargetOS}" uri="{$strURI}"/>
         </xsl:variable>
-        <xsl:apply-templates select="$xmlData/data" mode="xat.uri.2path"/>
+        <xsl:apply-templates select="$xmlData/data" mode="xat:uri.2path"/>
     </xsl:function>
 
     

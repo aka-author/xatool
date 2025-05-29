@@ -279,7 +279,7 @@
     <xsl:function name="xat:strlist.isEmpty" as="xs:boolean">
         <xsl:param name="strList"/>
         <xsl:param name="strPatterns"/>
-        <xsl:value-of select="xat:strlist.count($strList, $strPatterns) = 0"/>
+        <xsl:sequence select="xat:strlist.count($strList, $strPatterns) = 0"/>
     </xsl:function>
 
     <!-- Does a list contain an item? -->

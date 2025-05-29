@@ -25,7 +25,7 @@
         Converting a Windows path to an URI
     -->
     
-    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat.path.2uri">
+    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat:path.2uri">
 
         <xsl:variable name="strIRI">
             <xsl:text>file:/</xsl:text>
@@ -41,7 +41,7 @@
         Converting an URI to a Windows path
     -->
     
-    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat.uri.2path">        
+    <xsl:template match="*[lower-case(@os) = 'windows']" mode="xat:uri.2path">        
 
         <xsl:variable name="strRawPath">
             <xsl:value-of select="xat:uri.localFile(@uri)"/>
